@@ -1,0 +1,201 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+	
+	setInterval('update_price()',1000); 
+	
+	rating_id = eval($('#raiting_star').attr('rating_id')) ; // итоговый ретинг
+	if (rating_id == null) rating_id =0;
+	total_reiting = eval($('#raiting_star').attr('rating')) ; // итоговый ретинг
+	if (total_reiting == null) total_reiting =0;
+	goods_id =  eval($('#raiting_star').attr('goods_id'));  // id статьи
+	if (goods_id == null) goods_id =0;
+	
+	var star_widht = total_reiting*17 ;
+	$('#raiting_votes').width(star_widht);
+	$('#raiting_info h5').append(total_reiting);
+	he_voted = $.cookies.get('article'+goods_id); // проверяем есть ли кука?
+
+	if(he_voted == null){
+	$('#raiting').hover(function() {
+		$('#raiting_votes, #raiting_hover').toggle();
+	},
+		function() {
+			$('#raiting_votes, #raiting_hover').toggle();
+		});
+	
+	var margin_doc = $("#raiting").offset();
+	$("#raiting").mousemove(function(e){
+	var widht_votes = e.pageX - margin_doc.left;
+	if (widht_votes == 0) widht_votes =1 ;
+	user_votes = Math.ceil(widht_votes/17);  
+// обратите внимание переменная  user_votes должна задаваться без var, т.к. в этом случае она будет глобальной и мы сможем к ней обратиться из другой ф-ции (нужна будет при клике на оценке.
+	$('#raiting_hover').width(user_votes*17);
+	});
+// отправка
+	$('#raiting').click(function(){
+		$('#raiting_info h5, #raiting_info img').toggle();				
+		$.ajax({
+               type: "POST",			   
+				url:"/mainlist/rating",			
+				data:{goods_id: goods_id, user_votes: (total_reiting + user_votes)/2, rating_id:rating_id}, 
+				cache: false,
+				async: false,
+				
+				
+				success: function(data){																		
+					$("#raiting_info h5").html(data);
+					$('#raiting_hover').hide();
+					$('#raiting_votes').width(Math.round((total_reiting + user_votes)*17/2));
+					$('#raiting_votes').show();
+					$('#raiting_info h5, #raiting_info img').toggle();
+					$.cookies.set('article'+goods_id, 123, {hoursToLive: 1}); // создаем куку 
+					$("#raiting").unbind();					
+					//
+					
+					$("#raiting_info h5").show();
+					},
+				error: function (msg) {
+                        alert(msg.responseText)
+                        alert('Неопознанная ошибка загрузки чертежа');
+						},
+				status:function (number) {//код состояния отправки от 1 до 4
+					alert(number);//вывожу код состояния отправки
+				},
+				endstatus:function (number) {//код состояния запроса например 404, 200
+					alert(number);//вывожу код состояния запроса
+				},
+				timeout:1000//таймаут запроса						
+				})
+	});
+	}
+						   
+});
+						   
+	function update_price()	{
+		id 		= eval($('#raiting_star').attr('goods_id'));
+		user_id = eval($('#raiting_star').attr('user_id'));
+		
+		$.ajax({
+			type: "POST",			   
+			url:"/mainlist/update_price",			
+			data:{id: id, user_id:user_id}, 
+			cache: false,
+			async: false,
+			success: function(data){
+			
+			if (Number(data) !== 1) {
+				$("#current_price").html(data);
+				} else {					
+					$("#max_price").html('Товар продан.');
+					$("#btn_cur_pr").hide();
+					$("#lbl_cur_price").hide();
+					$("#final_date").hide();
+					$("#lbl_max_price").hide();	
+					$("#raiting_star").hide();					
+				};
+			},
+		})			
+	
+	};				   
+
+	function byestep(id, user_id, step_price, cur_price ){
+		$.ajax({
+			type: "POST",			   
+			url:"/mainlist/byestep",			
+			data:{id: id, user_id: user_id, cur_price:cur_price, step_price:step_price}, 
+			cache: false,
+			async: false,
+			success: function(data){
+				$("#current_price").html(data);
+			},
+		})						
+	};
+	function byecomplite(id, user_id, step_price, max_price ){
+		$.ajax({
+			type: "POST",			   
+			url:"/mainlist/soldmaxprice",			
+			data:{id: id, user_id: user_id, max_price:max_price, step_price:step_price}, 
+			cache: false,
+			async: false,
+			success: function(data){
+				$("#max_price").html(data);
+				$("#btn_cur_pr").hide();
+				$("#lbl_cur_price").hide();
+				$("#final_date").hide();
+				$("#lbl_max_price").hide();
+				
+			},
+		})						
+	};
+	
+</script>
+<center> 
+<?php $sess = Session::get('id');?>	
+<table class="table-common-img" border="0px">
+		<tr>
+			<td>
+					<center>
+					<table class="table-img" > 
+						<tr> 
+							<?php foreach($data['mainlist'] as $cur_goods){ ?>
+								<td><img src="<?=$cur_goods['photo_path']?>" width="300px" height="300px" border="1px" style="margin:10px 10px ;"></td>
+							<?php } ?>
+						</tr>
+					</table>
+					</center>
+			
+			</td>
+			
+		</tr>
+		<tr><td><?=$cur_goods['goods_decs']?></td></tr>
+		
+		<table class="table-desc" > 
+						
+						<tr align=center>
+							<td><?=__('message_name','Autor name') ?>: <?=$cur_goods['user_login']?> 
+							
+							<div id="raiting_star" goods_id="<?=$cur_goods['goods_id']?>" rating="<?=$cur_goods['rating_value']?>" rating_id="<?=$cur_goods['rating_id']?>" user_id="<?=$sess?>">
+								<div id="raiting">
+									<div id="raiting_blank"></div>
+									<div id="raiting_hover"></div>
+									<div id="raiting_votes"></div>
+								</div>
+								<div id="raiting_info">  <img src="/webroot/img/load.gif" /> <h5> <?=__('rating','Rating') ?>: </h5></div>
+							</div>
+							</td>
+						</tr>
+					
+					<?php	if ( isset($sess ) != null) { ?> 
+				
+						<div id="table_price">
+							<tr align=center>													
+								<td> 
+									<?php if($cur_goods['goods_price']!=$cur_goods['goods_cur_price']) {?>
+										<div id="current_price" ><label id="lbl_cur_price"> <?=__('form_add_price','Price') ?>: </label><button id="btn_cur_pr" class="btn btn-sm btn-success" onClick="javascript: byestep('<?=$cur_goods['goods_id'];?>','<?=Session::get('id');?>','<?=$cur_goods['goods_step_price']?>','<?=$cur_goods['goods_cur_price']?>');"><?=$cur_goods['goods_step_price']+$cur_goods['goods_cur_price']?> <?=__('uah','UAH.')?></button></div>
+										<div id="max_price" > <?=__('form_add_max_price','Max price') ?>: <button id="btn_max_price" class="btn btn-sm btn-warning" onClick="javascript: byecomplite('<?=$cur_goods['goods_id'];?>','<?=Session::get('id');?>','0','<?=$cur_goods['goods_price']?>');"> <?=$cur_goods['goods_price']?><?=__('uah','UAH.')?></button></div> 
+									<?php } ?>
+								</td>
+							</tr>
+							<tr align=center>						
+								<?php if($cur_goods['goods_price']!=$cur_goods['goods_cur_price']) {?>
+									<td><div id="final_date">  <?=__('form_add_end_time','End data') ?>: <?=date('d-m-Y', strtotime($cur_goods['goods_start_time'].'+'.$cur_goods['goods_num_days'].' day') )  ?>. Осталось: <?= $cur_goods['goods_days_left']?></div></td>
+								<?php } ?>					
+							</tr> 
+						</div>
+						<?php } else { ?>
+						<table class="table-img" > 						
+							<tr align=center>						
+								<td> <?=__('form_add_price','price') ?> <?=$cur_goods['goods_cur_price']+$cur_goods['goods_step_price']?> <?=__('form_add_max_price','Max price') ?><?=$cur_goods['goods_price']?> </td>
+							</tr>
+							<tr align=center>						
+								 
+								<td><?=__('form_add_end_time','End data') ?>  <?=date('d-m-Y', strtotime($cur_goods['goods_start_time'].'+'.$cur_goods['goods_num_days'].' day') )  ?>. Осталось: <?= $cur_goods['goods_days_left']?> </td>
+							</tr> 
+						</table><br>						
+						<?php } ?>
+		</table>
+		
+
+</table>
+</center>
+

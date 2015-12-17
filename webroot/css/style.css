@@ -1,0 +1,142 @@
+body{
+  
+	height: 100%;
+	min-height: 100%;
+}
+
+form{
+    width: 100%;
+    max-width: 100%;
+	height: 100%;
+	min-height: 100%;
+}
+
+#raiting {position:relative; height:16px; cursor:pointer; width:83px; } /* Блок рейтинга*/
+#raiting_blank, #raiting_votes, #raiting_hover {height:16px; position:absolute}
+#raiting_blank { background:url(/webroot/img/ratings.png); width:83px; } /* "Чистые" звездочки */
+#raiting_votes {background:url(/webroot/img/ratings.png) 0 -16px} /*  Закрашенные звездочки */ 
+#raiting_static{background:url(/webroot/img/ratings.png) 0 -16px width:24px} /*  Закрашенные звездочки статика*/ 
+#raiting_hover {background:url(/webroot/img/ratings.png) 0 -32px; display:none}  /*  звездочки при голосовании */ 
+#raiting_info {margin-left:20px}
+#raiting_info img{vertical-align:middle; margin:0 5px; display:none}
+
+
+#logo img{
+	width:900px;
+	height:300px;
+	display:block;
+	margin-left: auto;
+    margin-right: auto;
+	min-height:10%;
+}
+
+.goods_img_edit img{
+	width:150px;
+	height:200px;
+	margin:15px;
+}
+
+
+#container{
+	height: 100%;
+	min-height:100%;
+	margin-bottom: -170px;
+	padding-bottom:170px;
+	position:relative;
+}
+.clear::after {
+        content: "&nbsp;";
+        display: block;
+        clear: both;
+        visibility: hidden;
+        height: 0;
+        line-height: 0;
+}
+
+* html #container{
+	height: 100%;
+	min-height: 100%;
+	margin-bottom: -50px;
+	position:relative;  
+}
+
+#footer {
+	width:100%;
+	height:150px;
+	min-height:150px;	
+	margin-top:50px;
+	margin-left: auto;
+    margin-right: auto;	
+	text-align:center;
+	bottom:0px;
+}
+#footer img{
+	width:600px;
+	height:150px;
+	display: block;	
+	margin-left: auto;
+    margin-right: auto;	
+	
+}
+
+#table_price{
+	position:relative;
+	vertical-align:top;
+}
+#current_price, #max_price{
+	float:left;
+	padding: 5px;
+}
+#table-common-img{
+	margin:10px;
+    width: 100%;
+    max-width: 100%;
+	height:100%;
+	
+}
+.table-img-desc{
+	vertical-align:top;	
+    width: 100%;
+    max-width: 100%;
+	padding-left:10px;
+}
+.table-index-price{
+	vertical-align:top;	
+    width: 100%;
+    max-width: 100%;
+	text-align:center;
+}
+
+.mainlist_edit{
+	padding-left:10px;	
+	vertical-align:top;
+}
+
+.table-common-img{
+    padding: 40px 15px;	
+	height: 100%;
+	min-height:100%;
+
+}
+
+.contact-template{
+	margin-top:50px;
+    width: 100%;
+    max-width: 100%;	
+	height: 100%;
+	min-height:100%;
+	position:relative;	
+}
+
+#add-table{
+	width:100%;	
+	height:150%;	
+	position:relative;
+}
+
+#alert-info{
+	margin-top:60px;
+    width: 100%;
+    max-width: 100%;
+	
+}

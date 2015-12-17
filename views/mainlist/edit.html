@@ -1,0 +1,52 @@
+<div>
+<H3><?=__('form_edit','Form edit') ?></H3>
+<form action="/mainlist/edit_confirm" method = "post" enctype = 'multipart/form-data'>  
+<?php 
+
+/*echo "<pre>";
+print_r($data['mainlist'][0]);die;*/
+ $cur_goods= $data['mainlist'][0];
+?>
+ 
+
+	<input type="hidden" name="user_id" value="<?=$cur_goods['user_id']?>" /><br>
+    <input type="hidden" name="goods_id" value="<?=$cur_goods['goods_id']?>" /><br>
+	<label> <?=__('form_add_name','name') ?> </label>
+	<input type="text" name="name" id="name" value="<?=$cur_goods['goods_name'] ?>" class ="form-control" /><br>
+    
+	<label> <?=__('form_add_desc','desc') ?> </label>
+	<textarea rows="10" cols="150" name="desc" class ="form-control"><?=$cur_goods['goods_decs'] ?></textarea><br>
+	
+    
+	<label> <?=__('form_add_start_time','start_time') ?> </label>
+	<input type="date" name="start_time"  value="<?= date('Y-m-d',strtotime($cur_goods['goods_start_time']))?>" class ="form-control"/><br>
+
+	<label> <?=__('form_add_price','price') ?> </label>
+    <input type="number" name="price"  min="0" size="3" value="<?=$cur_goods['goods_price'] ?>" class ="form-control"/><br>
+
+	<label> <?=__('form_add_step_price','Step price') ?> </label>
+    <input type="number" name="step_price"  min="0"  size="3" value="<?=$cur_goods['goods_step_price'] ?>" class ="form-control"/><br>
+    
+	<label> <?=__('form_add_num_days','num_days') ?> </label>
+	<input type="number" name="num_days"  min="0" max="365" size="3" value="<?=$cur_goods['goods_num_days'] ?>" class ="form-control"/><br>
+ 	
+	<input type="checkbox" name="active" <?php if ($cur_goods['goods_active'] == 1) { echo "checked"; } ?> >Опубликовать</input><br><br>
+	<label> <?=__('form_added_add_files','Added files') ?> </label> <br>
+   
+
+    <?php $data_foto = $data['mainlist'][1];
+    
+        foreach($data_foto as $cur_goods){ ?>
+            <img src="<?= $cur_goods['photo_path'] ?>" style="	width:150px;height:200px; margin:15px;" ></img> 
+
+			
+        <?php  } ?>       
+	<input type = "file" name = "filename[]" class ="form-control" /><br>
+	<input type = "file" name = "filename[]" class ="form-control" /><br>
+	<input type = "file" name = "filename[]" class ="form-control" /><br>
+	<input type = "submit" class="btn btn-success"  value = "<?=__('form_add_save','Save') ?>" />
+	<input type = "submit" class="btn btn-warning" name="back" value = "<?=__('admin_cancel','Cancel') ?>"/>
+ </form>
+
+</div>
+

@@ -1,0 +1,54 @@
+<table id="table-common-img" border="0px" width=100%>
+
+<?php // echo"<pre>"; print_r($data); 
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$form_page = Config::get('adsperpage') * ($page-1) +1 ;
+$to_page = (Config::get('adsperpage')* $page);
+if($to_page > count($data['mainlist'])){
+	$to_page = count($data['mainlist']);
+}
+//echo count($data['mainlist']);
+/*echo "page".$page."<br>";
+echo "form_page".$form_page."<br>";
+echo "to_page".$to_page."<br>";*/
+$j=$form_page-1;
+for ($i = $j; $i < $to_page; $i++){
+	$cur_goods = $data['mainlist'][$j]; 
+	$j++; 
+?>
+		<tr>
+			<td>
+				<table class="table-img-desc" border="0px"> 
+					<tr align=center>
+						<td><?=__('form_add_name','Name') ?>: <?=$cur_goods['goods_name']?></td>
+						<td><?=__('form_add_desc','Description') ?>: </td>
+					</tr>
+					<tr> 						
+						<td width=30%><a href="/mainlist/view/<?=$cur_goods['goods_id'];?>" ><img src="<?=$cur_goods['photo_path']?>" width="300px" height="300px" border="1px" style="margin:10px 10px ;"></a></td>
+						<td width=70%><?=$cur_goods['goods_decs']?></td>
+					</tr>
+				</table>
+				<center>
+					<table class="table-index-price" > 
+						<tr >
+							<td>Автор: <?=$cur_goods['user_login']?></td>
+						</tr>						
+						<tr>						
+							<td> <?=__('form_add_price','Price') ?>: <?=$cur_goods['goods_cur_price']+$cur_goods['goods_step_price']?> <?=__('form_add_max_price','Max price') ?>:<?=$cur_goods['goods_price']?> </td>
+						</tr>
+						<tr>													 
+							<td><?=__('form_add_end_time','End data') ?>: <?=date('d-m-Y', strtotime($cur_goods['goods_start_time'].'+'.$cur_goods['goods_num_days'].' day') )  ?>. Осталось: <?= $cur_goods['goods_days_left'] ?></td>
+						</tr> 
+					</table><br>
+				</center>			
+			</td>
+
+		</tr>
+
+<?php } ?>
+
+
+
+</table>
+<?php require  ROOT.DS.'plugins'.DS.'pagination.php';?>

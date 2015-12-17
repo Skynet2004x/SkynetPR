@@ -1,0 +1,8 @@
+<H3><?=__('Contact_as','Contact as') ?>:</H3>
+<?=$_GET['login']?>
+<form action="" method="post">
+<input type="text" class="form-control" name="name" placeholder="<?=__('Your_name','Your name') ?>" <?php if (Session::get('login') !=null) { ?> value="<?= Session::get('login') ;} ?>  "/>  <br/>
+<input type="text" class="form-control" name="email" placeholder="<?=__('Your_email','Your email') ?>" <?php if (Session::get('email') !=null) { ?> value="<?= Session::get('email') ;} ?>"/> <br/>
+<textarea name="message" class="form-control" placeholder="<?=__('Your_message','Your message') ?>" ></textarea> <br/>
+<button class="btn btn-lg btn-primary btn-block" type="submit"><?=__('Send','Send') ?></button>
+</form>

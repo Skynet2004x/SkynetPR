@@ -1,0 +1,25 @@
+<H3><?=__('admin_pages_add','Add') ?>:</H3>
+<br/>
+<form method="post" action="">
+	<div class="form-group">
+		<label for="alias"><?=__('admin_pages_edit_alias','Alias') ?></label>
+		<input type="text" id="alias" name="alias" value="" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<label for="title"><?=__('admin_pages_edit_title','Title') ?></label>
+		<input type="text" id="title" name="title" value="" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<label for="content"> <?=__('admin_pages_edit_content','Content') ?> </label>
+		<textarea name="content" class="form-control"></textarea>
+	</div>
+	<div class="form-group">
+		<label for="is_published"><?=__('admin_pages_edit_publish','Publish ?') ?></label>
+		<input type="checkbox" name="is_published" id="is_published" checked="checked"  />
+	</div>
+	<input type="submit" class="btn btn-success" />
+	<input type="submit" class="btn btn-warning" name="back" value = "<?=__('admin_cancel','Cancel') ?>"/>
+	
+	
+	
+</form>

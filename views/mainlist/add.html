@@ -1,0 +1,36 @@
+<div id="add-table">
+<H3><?=__('form_add','Form add') ?></H3>
+<form action="/mainlist/add" method = "post" enctype = 'multipart/form-data'>   
+
+	<input type="hidden" name="user_id" value="<?=session::get('id')?>" />
+	<label> <?=__('form_add_name','name') ?> </label>
+	<input type="text" name="name" id="name" placeholder="<?=__('form_add_name','name') ?> " class ="form-control" /><br>
+    
+	<label> <?=__('form_add_desc','desc') ?> </label>
+	<textarea rows="10" cols="150" name="desc"  class ="form-control"></textarea><br>
+	
+    
+	<label> <?=__('form_add_start_time','start_time') ?> </label>
+	<input type="date" name="start_time"  placeholder="<?=__('form_add_start_time','start_time') ?>" class ="form-control"/><br>
+
+	<label> <?=__('form_add_price','price') ?> </label>
+    <input type="number" name="price"  min="0" size="3" placeholder="<?=__('form_add_price','price') ?>" class ="form-control"/><br>
+
+	<label> <?=__('form_add_step_price','Step price') ?> </label>
+    <input type="number" name="step_price"  min="0"  size="3" placeholder="<?=__('form_add_step_price','price') ?>" class ="form-control"/><br>
+    
+	<label> <?=__('form_add_num_days','num_days') ?> </label>
+	<input type="number" name="num_days"  min="0" max="365" size="3" placeholder="<?=__('form_add_num_days','num_days') ?>" class ="form-control"/><br>
+ 	
+	<input type="checkbox" name="active" ><?=__('activity','Active') ?></input><br><br>
+	<label> <?=__('form_add_add_files','add_files') ?> </label>
+   
+
+  <input type = "file" name = "filename[]" class ="form-control" /><br>
+  <input type = "file" name = "filename[]" class ="form-control" /><br>
+  <input type = "file" name = "filename[]" class ="form-control" /><br>
+  <input type = "submit" value = "<?=__('form_add_load','add_files') ?>" class="btn btn-success" />
+
+</form>
+</div>
+

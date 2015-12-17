@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><?=Config::get('site_name')?></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="/css/style.css" type="text/css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" type="text/css" />
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>	
+	<script src="/js/admin.js"></script>	
+	
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/admin/"><?=Config::get('site_name')?> - <?=__('admin_page','Admin page') ?></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+		  
+            <li><a <?php if (App::getRouter()->getController() == 'allusers') {?> class='active' <?php } ?> href="/admin/allusers/"><?=__('users','Users') ?></a></li>
+            <li><a <?php if (App::getRouter()->getController() == 'mainlist') {?> class='active' <?php } ?> href="/admin/mainlist/view/"><?=__('admin_goods','Goods') ?></a></li>
+            <li><a <?php if (App::getRouter()->getController() == 'pages') {?> class='active' <?php } ?> href="/admin/pages/"><?=__('content','Content') ?></a></li>
+            <li><a <?php if (App::getRouter()->getController() == 'contacts') {?> class='active' <?php } ?> href="/admin/contacts/"><?=__('Contact','Contact') ?></a></li>            
+           <?php 
+				$sess = session::get('login');
+				if ( isset($sess ) == null) { ?> 			
+					<li><a <?php if (App::getRouter()->getController() == 'logout') { ?> class='active' <?php } ?> href="/admin/users/login"><?=__('login','Login') ?></a></li>
+			<?php }  else { ?> 
+				<li><a <?php if (App::getRouter()->getController() == 'logout') {?> class='active' <?php } ?> href="/admin/users/logout"><?=__('logout','Logout')." (".Session::get('login').")" ?></a></li>
+			<?php } ?>
+
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+	<?php if(Session::hasFlash()) { ?>
+		<div class="alert alert-info" role="alert">
+			<?php Session::flash(); ?>
+		</div>
+		<?php } ?>
+	
+		<?php if (App::getRouter()->getController() == 'pages') {?> 
+			  <div class="starter-template">			
+				<?=$data['content']?>
+			  </div>
+		<?php } ?>
+		<?php if (App::getRouter()->getController() == 'contacts') {?> 
+			<div class="contact-template">
+				<?=$data['content']?>
+			</div>
+		<?php } ?>
+		<?php if (App::getRouter()->getController() == 'users') {?> 
+			<div class="contact-template">
+				<?=$data['content']?>
+			</div>
+		<?php } ?>
+		<?php if (App::getRouter()->getController() == 'allusers') {?> 
+			<div class="contact-template">
+				<?=$data['content']?>
+			</div>
+		<?php } ?>		
+		<?php if (App::getRouter()->getController() == 'mainlist') {?> 
+			  <div class="starter-template">			
+				<?=$data['content']?>
+			  </div>
+		<?php } ?>
+		
+    </div><!-- /.container -->
+
+	
+	
+	
+
+</body>
+</html>

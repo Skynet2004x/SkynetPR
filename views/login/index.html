@@ -1,0 +1,17 @@
+<H3><?=__('login','Login') ?></H3>
+<br/>
+<form method="post" action="">
+	<div class="form-group">
+		<label for="login"> <?=__('login','Login') ?> </label>
+		<input type="text" id="login" name="login" class ="form-control" />
+	</div>
+	<div class="form-group">
+		<label for="password"> <?=__('password','Password') ?> </label>
+		<input type="password" id="password" name="password" class ="form-control" />
+	</div>
+	<div class="form-group">
+		<a href="/login/registration">Зарегистрироваться</a> <br/>
+	</div>
+	<a href="/login/user/confirm/<?=$page_data['id']?>"><button class="btn btn-success" ><?=__('login','submit') ?></button></a>
+	
+</form>
