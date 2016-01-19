@@ -229,8 +229,6 @@ class Main_list extends Model{
 			/*var_dump( $c_max_price);
 			var_dump( $new_cur_price > (int)$c_max_price);
 			*/
-				var_dump($new_cur_price); 
-				var_dump((int)$c_max_price);
 					
 			if( $new_cur_price >= (int)$c_max_price){ // приплыли... последняя ставка сделана
 
