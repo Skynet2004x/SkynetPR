@@ -1,3 +1,4 @@
+<div>
 <H3><?=__('users_my_goods','My goods list') ?>:</H3>
 
 <table id="table-common-img" border="0px">
@@ -34,20 +35,23 @@ for ($i = $j; $i < $to_page; $i++){
 						<td width=30%><a href="/mainlist/view/<?=$cur_goods['goods_id'];?>" ><img src="<?=$cur_goods['photo_path']?>" width="300px" height="300px" border="1px" style="margin:10px 10px ;"></a></td>
 						<td width=45% class="mainlist_edit"> <?=$cur_goods['goods_decs']?></td>
 						<td width=25% class="mainlist_edit">
-							Автор:<b><?=$cur_goods['user_login']?></b><br/>
-							<?=__('form_add_step_price','Step price') ?>: <b><?=$cur_goods['goods_cur_price']+$cur_goods['goods_step_price']?> <?=__('uah','UAH.')?></b> <br>
-							<?=__('form_add_max_price','Max price') ?>: <b><?=$cur_goods['goods_price']?> <?=__('uah','UAH.')?></b><br>
-							<?=__('form_add_start','From date') ?>: <b><?=$cur_goods['goods_start_time']?> </b><br>
+							
+							<?=__('content_table_author','Author')?> : <b><?=$cur_goods['user_login']?></b><br/>
+							<?=__('form_add_step_price','Step price') ?> : <b><?=$cur_goods['goods_cur_price']+$cur_goods['goods_step_price']?> <?=__('uah','UAH.')?></b> <br>
+							<?=__('form_add_max_price','Max price') ?> : <b><?=$cur_goods['goods_price']?> <?=__('uah','UAH.')?></b><br>
+							<?=__('form_add_start','From date') ?> : <b><?=$cur_goods['goods_start_time']?> </b><br>
 							<?php if( $cur_goods['goods_days_left'] > 0 && $cur_goods['goods_start_time'] > date('Y-m-d H:m:s', time())){ ?>
                                 <?=__('form_add_end_time','End data')?> : <b><?=date('d-m-Y', strtotime($cur_goods['goods_start_time'].'+'.$cur_goods['goods_num_days'].' day') )?> .</b><br> 
                                 <?php } else { echo "Срок истек <br>"; } ?>
 							
                             <?php if( $cur_goods['goods_days_left'] > 0){ echo "Осталось: <b>".$cur_goods['goods_days_left']."</b><br/>"; }?>
                             
-                            <?=__('activity','Activity') ?>: <b><?php if ($cur_goods['goods_active'] == 1) { echo __('active','Active'); } else { echo __('not_active','Not active');  } ?></b><br> 
+                            <?=__('activity','Activity') ?> : <b><?php if ($cur_goods['goods_active'] == 1) { echo __('active','Active'); } else { echo __('not_active','Not active');  } ?></b><br> 
 							
 							<?php if (($cur_goods['goods_active'] == 1 || (int)$cur_goods['goods_days_left'] > 0) && $cur_goods['goods_start_time'] < date('Y-m-d H:m:s', time()) ) { ?>
-								<?=__('no_edit','Edition bloked') ?> 
+								<?php if($cur_goods['goods_cur_price'] >= $cur_goods['goods_price']) { echo __('ads_sold','Contetn sold.')."<br>".__('ads_winer','Winer:').$cur_goods['winer_login'] ; } else { ?>						
+									<?=__('no_edit','Edition bloked') ?> 
+								<?php } ?>
 							<?php } else { ?> 
 							<a href="/admin/mainlist/edit/<?=$cur_goods['goods_id']?>/<?=$cur_goods['user_id']?>" ><button class="btn btn-sm btn-success" ><?=__('admin_edit_butn','Edit')?></button> </a>							
 							<a href="/admin/mainlist/delete/<?=$cur_goods['goods_id']?>" /><button class="btn btn-sm btn-warning" onclick="return confirmDelete();"><?=__('admin_delete_butn','Delete') ?></button> </a>
@@ -62,3 +66,5 @@ for ($i = $j; $i < $to_page; $i++){
 
 </table>
 <?php require  ROOT.DS.'plugins'.DS.'pagination.php';?>
+<input type="submit" class="btn btn-warning" name="back" value = "<?=__('admin_cancel','Cancel') ?>" onClick="window.location = '/admin/allusers/'"/>
+</div>

@@ -1,0 +1,12 @@
+<h3><?=__('content_table','content_table') ?></h3>
+
+
+<?php foreach($data['page'] as $page_data){ ?>
+<div> 
+	<h4> <?=__('form_add_name','Name') ?> : <?=$page_data['title']?> </h4> <?=__('page_date_created','Date created') ?> : <?=date('d-m-Y',$page_data['date_time'])?> <a onclick="$('#myPage<?=$page_data['id']?>').slideToggle('slow');" href="javascript://"><img src="/img/sv.png"></img></a> <a href="/pages/edit/<?=$page_data['id']?>" /><img src="/img/edit.jpg"></img></a>
+	<div id="myPage<?=$page_data['id']?>">
+		<p><?=$page_data['content']?></p>
+	</div>
+</div>
+<?php } ?>
+<br><a href="/pages/addpage/<?=$page_data['user_id']?>" /><button class="btn btn-sm btn-success"><?=__('admin_new','New') ?></button> </a>

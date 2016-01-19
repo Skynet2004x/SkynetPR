@@ -17,8 +17,8 @@ class LoginController extends Controller{
 				Session::set('id', $user['id']);
                 Session::set('role', $user['role']);
 				Session::set('email', $user['email']);
-				if($user['login'] = 'admin'){
-					Router::redirect('/admin');
+				if($user['role'] = 'admin'){
+					Router::redirect('/admin/params/');
 				}
 				Router::redirect('/');
             } else {
@@ -33,6 +33,7 @@ class LoginController extends Controller{
     }
 
 	public function registration(){ 
+		
 		if(count($_POST)){
 			if(preg_match("/^[\da-zA-Z_]{3,10}$/", trim($_POST['password']))){
 				$user = $this->model->getByEmail($_POST['email']);
@@ -44,12 +45,14 @@ class LoginController extends Controller{
 				
 						if( !is_null($_POST['login']) && !is_null($_POST['password']) && !is_null($_POST['email']) && strlen($_POST['login']) > 0 && strlen($_POST['password']) > 0 && strlen($_POST['email']) > 0 ){					
 							if ($_POST['password'] === $_POST['password1']){		
-								$user = $this->model->save($_POST);				
+							//	$user = $this->model->save($_POST);				
 								Session::set('login', $_POST['login']);
 								Session::set('role', $_POST['role']);
 								Session::set('email', $_POST['email']);
 								
-								$this->model->sendEmail($_POST);
+								if ((int)Config::get('sendemail') == 1) {									
+									$this->model->sendEmail($_POST['email'],$_POST['login'],"Congratulations! You was register successfull. Your login - ".$_POST['login'].", password - ".$_POST['password']);
+								}
 							}			
 							Router::redirect('/');								
 						} else {

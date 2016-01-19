@@ -6,6 +6,8 @@ class App{
 	
 	public static $db;
 	
+	//public static $cart;
+	
 	public static function getRouter(){
 		return self::$router;
 	}
@@ -16,7 +18,7 @@ class App{
 		self::$db = DB::getInstance(Config::get('db.host'), Config::get('db.user'), Config::get('db.password'), Config::get('db.db_name'));
 		
 		Lang::load(self::$router->getLanguage());
-		
+				
 		$controller_class = ucfirst(self::$router->getController()).'controller';		
 		$controller_method = strtolower(self::$router->getMethod_prefix().self::$router->getAction());
 		$controller_parametr = (self::$router->getParams());

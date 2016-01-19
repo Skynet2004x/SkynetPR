@@ -2,6 +2,7 @@
 <br/>
 <form method="post" action="">
 <input type="hidden" name="id" value="<?=$data['pages']['id']?>" />
+<input type="hidden" name="user_id" value="<?=$data['pages']['user_id']?>" />
 	<div class="form-group">
 		<label for="alias"><?=__('admin_pages_edit_alias','Alias') ?></label>
 		<input type="text" id="alias" name="alias" value="<?=$data['pages']['alias']?>" class="form-control"/>
@@ -15,10 +16,14 @@
 		<textarea name="content" class="form-control"><?=$data['pages']['content']?></textarea>
 	</div>
 	<div class="form-group">
+		<label for="date_time"> <?=__('page_date_created','Date created') ?> </label>				
+		<input type="datetime" id="date_time" name="date_time" value="<?=$data['pages']['date_time']?>" class="form-control"/>
+	</div>
+	<div class="form-group">
 		<label for="is_published"><?=__('admin_pages_edit_publish','Publish ?') ?></label>
 		<input type="checkbox" name="is_published" id="is_published" <?php if ($data['pages']['is_published']) { ?> checked="checked" <?php } ?> />
 	</div>
 	<input type="submit" class="btn btn-success"/>
-	<input type="submit" class="btn btn-warning" name="back" value = "<?=__('admin_cancel','Cancel') ?>"/>
+	<input type="submit" class="btn btn-warning" name="back" value = "<?=__('admin_cancel','Cancel') ?>" onClick="window.location = '/admin/allusers/'"/>
 
 </form>

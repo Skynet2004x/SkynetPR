@@ -1,1 +1,17 @@
-<?="bla bla"?>
+<?php print_r($data['params']);?>
+<form method="post" action="">
+
+	<input type="hidden" name="id" id="id"value="<?=$data['params']['id']?>" />
+	<div class="form-group">
+		<label for="adsperpage"><?=__('users_list_name','adsperpage') ?></label>
+		<input type="text" id="adsperpage" name="adsperpage" value="<?=$data['params']['adsperpage']?>" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<label for="sitename"><?=__('password','sitename') ?></label>
+		<input type="text" id="sitename" name="sitename" value="<?=$data['params']['sitename']?>" class="form-control"/>
+	</div>
+	<input type="submit" class="btn btn-success"/>
+	<input type="submit" class="btn btn-warning" name="back" value = "<?=__('admin_cancel','Cancel') ?>" onClick="window.location = '/admin/allusers/'"/>
+	
+
+</form>

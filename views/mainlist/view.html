@@ -1,7 +1,9 @@
+
 <script type="text/javascript">
 	$(document).ready(function(){
 	
 	setInterval('update_price()',1000); 
+
 	
 	rating_id = eval($('#raiting_star').attr('rating_id')) ; // итоговый ретинг
 	if (rating_id == null) rating_id =0;
@@ -70,11 +72,12 @@
 	}
 						   
 });
-						   
+	
+	
 	function update_price()	{
 		id 		= eval($('#raiting_star').attr('goods_id'));
-		user_id = eval($('#raiting_star').attr('user_id'));
-		
+		user_id = eval($('#raiting_star').attr('user_id'));				
+
 		$.ajax({
 			type: "POST",			   
 			url:"/mainlist/update_price",			
@@ -84,7 +87,7 @@
 			success: function(data){
 			
 			if (Number(data) !== 1) {
-				$("#current_price").html(data);
+				$("#current_price").html(data);							
 				} else {					
 					$("#max_price").html('Товар продан.');
 					$("#btn_cur_pr").hide();
@@ -94,27 +97,29 @@
 					$("#raiting_star").hide();					
 				};
 			},
-		})			
+			//timeout:2000
+		})
+									
 	
 	};				   
 
-	function byestep(id, user_id, step_price, cur_price ){
+	function byestep(id, user_id, step_price, cur_price, c_max_price){
 		$.ajax({
 			type: "POST",			   
 			url:"/mainlist/byestep",			
-			data:{id: id, user_id: user_id, cur_price:cur_price, step_price:step_price}, 
+			data:{id: id, user_id: user_id, cur_price:cur_price, step_price:step_price, c_max_price:c_max_price}, 
 			cache: false,
 			async: false,
 			success: function(data){
 				$("#current_price").html(data);
 			},
-		})						
+		})	
 	};
-	function byecomplite(id, user_id, step_price, max_price ){
+	function byecomplite(id, user_id, step_price, c_max_price){
 		$.ajax({
 			type: "POST",			   
 			url:"/mainlist/soldmaxprice",			
-			data:{id: id, user_id: user_id, max_price:max_price, step_price:step_price}, 
+			data:{id: id, user_id: user_id, c_max_price:c_max_price, step_price:step_price}, 
 			cache: false,
 			async: false,
 			success: function(data){
@@ -124,13 +129,23 @@
 				$("#final_date").hide();
 				$("#lbl_max_price").hide();
 				
+				$.ajax({
+						type: "POST",			   
+						url:"/mainlist/update_cart",			
+						data:{user_id:user_id}, 
+						cache: false,
+						async: false,			
+						success: function(data){				
+							$("#card").html(data);
+						},
+					})				
 			},
-		})						
+		})			
 	};
 	
 </script>
 <center> 
-<?php $sess = Session::get('id');?>	
+<?php $sess = Session::get('id');// echo "<br>"; print_r($data);?>	
 <table class="table-common-img" border="0px">
 		<tr>
 			<td>
@@ -138,7 +153,7 @@
 					<table class="table-img" > 
 						<tr> 
 							<?php foreach($data['mainlist'] as $cur_goods){ ?>
-								<td><img src="<?=$cur_goods['photo_path']?>" width="300px" height="300px" border="1px" style="margin:10px 10px ;"></td>
+								<td><img src="<?=$cur_goods['photo_path']?>" height="300px" border="1px" style="margin:10px 10px ;"></td>
 							<?php } ?>
 						</tr>
 					</table>
@@ -171,7 +186,8 @@
 							<tr align=center>													
 								<td> 
 									<?php if($cur_goods['goods_price']!=$cur_goods['goods_cur_price']) {?>
-										<div id="current_price" ><label id="lbl_cur_price"> <?=__('form_add_price','Price') ?>: </label><button id="btn_cur_pr" class="btn btn-sm btn-success" onClick="javascript: byestep('<?=$cur_goods['goods_id'];?>','<?=Session::get('id');?>','<?=$cur_goods['goods_step_price']?>','<?=$cur_goods['goods_cur_price']?>');"><?=$cur_goods['goods_step_price']+$cur_goods['goods_cur_price']?> <?=__('uah','UAH.')?></button></div>
+										<div id="current_price" ><label id="lbl_cur_price"> <?=__('form_add_price','Price') ?>
+										</label><button id="btn_cur_pr" class="btn btn-sm btn-success" onClick="javascript: byestep('<?=$cur_goods['goods_id'];?>','<?=Session::get('id');?>','<?=$cur_goods['goods_step_price']?>','<?=$cur_goods['goods_cur_price']?>','<?=$cur_goods['goods_price']?>');"><?=$cur_goods['goods_step_price']+$cur_goods['goods_cur_price']?> <?=__('uah','UAH.')?></button></div>
 										<div id="max_price" > <?=__('form_add_max_price','Max price') ?>: <button id="btn_max_price" class="btn btn-sm btn-warning" onClick="javascript: byecomplite('<?=$cur_goods['goods_id'];?>','<?=Session::get('id');?>','0','<?=$cur_goods['goods_price']?>');"> <?=$cur_goods['goods_price']?><?=__('uah','UAH.')?></button></div> 
 									<?php } ?>
 								</td>

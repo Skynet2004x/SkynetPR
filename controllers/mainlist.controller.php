@@ -4,7 +4,7 @@ class MainlistController extends Controller{
 	
 	public function __construct($data = array()){
 		parent::__construct($data);
-		$this->model = new Main_list();		
+		$this->model = new Main_list();	
 	}
 	
 	
@@ -37,21 +37,14 @@ class MainlistController extends Controller{
 			if($params[0]==null || $params[1]==null){
 				Router::redirect('/');	
 			}
-			$result = $this->model->getGood($params);
 			
-			$cur_goods = $result[0];
-				
-			if (($cur_goods['goods_active'] == 1 || (int)$cur_goods['goods_days_left'] > 0) && $cur_goods['goods_start_time'] < date('Y-m-d H:m:s', time()) ) {				
-				Session::setFlash( __('page_was_not_saved','Page was not saved'));
-				Router::redirect('/mainlist/userprofile/');
-			} else {	
-				$this->data['mainlist']	 = $result;
-			}
+			$this->data['mainlist']	 = $this->model->getGood($params);
+			
 				
 			
 		} else { 
 			if (Session::get('id') != null ) {
-				Router::redirect('/mainlist/userprofile/'); 
+				Router::redirect('/mainlist/userprofile/'.Session::get('id')); 
 				} else {
 				Router::redirect('/mainlist/'); 
 			}
@@ -77,7 +70,7 @@ class MainlistController extends Controller{
 				}
 			} 
 		} 
-		Router::redirect('/mainlist/userprofile');		
+		Router::redirect('/mainlist/userprofile/'.Session::get('id'));		
 	}	
 	
 	public function update_price(){			
@@ -85,7 +78,7 @@ class MainlistController extends Controller{
 	}
 	
 	public function byestep(){			
-		$this->model->byeStep();
+		$this->model->byeStep();		
 	}
 
 	public function soldmaxprice(){
@@ -96,11 +89,9 @@ class MainlistController extends Controller{
 	}
 
 	
-	public function view(){
-		$params = App::getRouter()->getParams();
-		//print_r($params);
-		if (isset($params[0])){
-			$alias = strtolower($params[0]);
+	public function view(){		
+		$params = App::getRouter()->getParams();		
+		if (isset($params[0])){			
 			$this->data['mainlist'] = $this->model->getDetail($params);
 		}		
 	}
@@ -119,10 +110,11 @@ class MainlistController extends Controller{
 					Session::setFlash( __('page_was_not_saved','Page was not saved'));
 				}				
 			}
-			Router::redirect('/mainlist/userprofile/');
+			//Router::redirect('/mainlist/userprofile/');
 		}
 	}
 
+	
 	public function delete(){
 		if(isset($this->params[0])){
 			$result = $this->model->delete($this->params[0]);
@@ -134,14 +126,42 @@ class MainlistController extends Controller{
 		}
 		Router::redirect('/mainlist/userprofile/');
 	}
+/////////////////////// cart //////////////////////////
 
+	public function cart(){
+		if (Session::get('id') == null ) {
+			Router::redirect('/'); 
+		}		
+		
+		if($_POST){
+			print("!!!!!!!!!!!!!!!!!!!");
+		} else {
+			if (!isset($_POST['back'])){					
+				$this->data['mainlist']	 = $this->model->getCart((int)Session::get('id'));
+			} else {
+				Router::redirect('/mainlist/userprofile/');	
+			}
+			
+		}
+	}	
+	
+	public function update_cart(){			
+		$this->model->updateCart();
+	}
+
+	public function clear_cart(){			
+		$this->model->cartClear();
+		Router::redirect('/');
+	}
+	
+/////////////////////////////admin ///////////////////////////
 	public function admin_index(){
 		$this->data['pages'] = $this->model->getList();
 	}
 	
 	public function admin_view(){
 			$params = App::getRouter()->getParams();
-			print_r($params);
+			//print_r($params);
 			if ($params[0] == null && Session::get('role') != 'admin') {
 				Router::redirect('/'); 
 			}		
@@ -163,7 +183,7 @@ class MainlistController extends Controller{
 	}
 	
 	public function admin_edit(){
-		
+		//die(Session::get('id'));
 		if (Session::get('id') == null ) {
 			Router::redirect('/'); 
 		}		

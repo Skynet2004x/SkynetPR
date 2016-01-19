@@ -34,11 +34,11 @@
 			</td>
 		<tr>
 			<td colspan="7">
-				<a href="/admin/params/<?=$item['id']?>">Параметры</a>
+				<a href="/admin/params/edit/<?=$item['id']?>">Параметры</a>
 				<a href="/admin/mainlist/view/<?=$item['id']?>">Объявления</a>
-				<a href="/admin/pages/<?=$item['id']?>">Статьи</a>
+				<a href="/admin/pages/view/<?=$item['id']?>">Статьи</a>
 				<a href="/admin/comments/<?=$item['id']?>">Комментарии</a>
-				<a href="/admin/contacts/<?=$item['id']?>">Сообщения</a>
+				<a href="/admin/contacts/view/<?=$item['id']?>">Сообщения</a>
 			</td>
 		</tr>
 	
@@ -48,3 +48,4 @@
 	<?php } ?>
 	
 </table>
+<a href="/admin/params/add/"><button class="btn btn-sm btn-success"><?=__('admin_user_new','New user') ?></button></a>

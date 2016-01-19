@@ -1,0 +1,19 @@
+<H3><?=__('global_config_page','Global config page') ?>:</H3>
+<br/>
+
+<?php //print_r($data['params'][0]['id']);?>
+<form method="post" action="">
+
+	<input type="hidden" name="id" id="id"value="<?=$data['params'][0]['id']?>" />
+	<?php array_shift($data['params'][0]);
+	foreach ($data['params'][0] as $val => $key) { ?>
+		<div class="form-group">
+			<label for="<?=$val?>"><?=__('config_'.$val,'Ads per page') ?></label>
+			<input type="text" id="<?=$val?>" name="<?=$val?>" value="<?=$key?>" class="form-control"/>
+		</div>
+	
+	<?php } ?>
+	<input type="submit" class="btn btn-success"/>
+	<input type="submit" class="btn btn-warning" name="back" value = "<?=__('admin_cancel','Cancel') ?>" onClick="window.location = '/admin/allusers/'"/>
+	
+</form>	

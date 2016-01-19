@@ -53,9 +53,10 @@ class User extends Model{
 		return $this->db->query($sql);
 	}
 	
-	public function sendemail($user){
-
-		//$this->model->sendEmail($user);
+	//public function sendemail($email, $login, $pass, $message ){
+		//self::sendEmail($email, $login, $pass, $message); die;
+	//}	
+		/*
 		//SMTP needs accurate times, and the PHP time zone MUST be set
 		//This should be done in your php.ini, but this is how to do it if you don't have access to that
 		//date_default_timezone_set('Etc/UTC');
@@ -110,7 +111,7 @@ class User extends Model{
 		  <p>ISO-8859-1 text: éèîüçÅñæß</p>
 		</div>
 		</body>
-		</html>');//file_get_contents('contents.html'), dirname(__FILE__));*/
+		</html>');//file_get_contents('contents.html'), dirname(__FILE__));
 				//Replace the plain text body with one created manually
 				$mail->Subject = 'Registration';
 				$mail->AltBody = "Congratulations! You was register successfull. Your login - ".$user['login'].", password - ".$user['password'];
@@ -124,6 +125,6 @@ class User extends Model{
 				} else {
 					//echo "Message sent!";
 				}
-	}
+	}*/
 	
 }

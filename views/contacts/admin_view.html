@@ -1,0 +1,20 @@
+<H3><?=__('message_list','message list') ?> :</H3>
+<br>
+<table class="table table-striped" width=100%>
+	<tr>
+		<td style ="width:5%"><?=__('message_num','#') ?></td>
+		<td style ="width:10%"><?=__('message_name','Name') ?></td>
+		<td style ="width:15%"><?=__('message_email','Email') ?></td>
+		<td style ="width:60%"><?=__('message_content','Message') ?></td>
+	</tr>
+	<?php foreach($data as $item) { ?>
+	<tr>
+		<td><?=$item['id']?></td>
+		<td><?=$item['name']?></td>
+		<td><?=$item['email']?></td>
+		<td><?=$item['message']?></td>
+		
+	</tr>
+	<?php } ?>
+</table>
+<input type="submit" class="btn btn-warning" name="back" value = "<?=__('admin_cancel','Cancel') ?>" onClick="window.location = '/admin/allusers/'"/>

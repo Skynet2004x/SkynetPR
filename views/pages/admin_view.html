@@ -1,0 +1,29 @@
+<H3><?=__('admin_pages','Pages') ?>:</H3>
+<br/>
+<table class="table table-striped">
+<tr>
+	<td width=15% align="center"><b> <?=__('content_table_author','Author') ?></b></td>
+	<td width=65% align="center"><b> <?=__('content_table','Content') ?></b></td>
+	<td width=25% align="center"><b> <?=__('action_content_table','Action') ?></b></td>
+</tr>
+
+<?php foreach ($data['page'] as $page_data) { ?>
+
+
+	<tr>
+		<input type="hidden" name="user_id" value="<?=$page_data['user_id']?>" />
+		<td width=15%><b> <?=$page_data['login']?></b></td>
+		<td width=65%><b> <?=$page_data['title']?></b></td>
+		<td align="center"> 
+			<a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary"><?=__('admin_edit_butn','Edit') ?></button></a>
+			<a href="/admin/pages/delete/<?=$page_data['id']?>"><button class="btn btn-sm btn-warning" onclick="return confirmDelete();"><?=__('admin_delete_butn','Delete') ?></button></a>
+		</td>
+	</tr>
+<?php } ?>
+
+</table>
+<br/>
+<div>
+<a href="/admin/pages/add/"><button class="btn btn-success"><?=__('admin_new','New') ?></button></a>
+<input type="submit" class="btn btn-warning" name="back" value = "<?=__('admin_cancel','Cancel') ?>" onClick="window.location = '/admin/allusers/'"/>
+</div>

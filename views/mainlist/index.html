@@ -1,17 +1,13 @@
+
 <table id="table-common-img" border="0px" width=100%>
 
-<?php // echo"<pre>"; print_r($data); 
-
+<?php
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $form_page = Config::get('adsperpage') * ($page-1) +1 ;
 $to_page = (Config::get('adsperpage')* $page);
 if($to_page > count($data['mainlist'])){
 	$to_page = count($data['mainlist']);
 }
-//echo count($data['mainlist']);
-/*echo "page".$page."<br>";
-echo "form_page".$form_page."<br>";
-echo "to_page".$to_page."<br>";*/
 $j=$form_page-1;
 for ($i = $j; $i < $to_page; $i++){
 	$cur_goods = $data['mainlist'][$j]; 

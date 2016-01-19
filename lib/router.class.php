@@ -55,8 +55,7 @@ class Router{
 		// get part 
 		
 		$path = $uri_parts[0];
-		$path_parts = explode('/', $path);
-	
+		$path_parts = explode('/', $path);	
 		if (count($path_parts)){
 			
 			// get route of language
@@ -82,6 +81,7 @@ class Router{
 			$this->params = $path_parts;
 			
 		}
+		
 		// посмотрим что после ? если он есть
 		if(strlen($uri_parts[1])>0){
 			$path = $uri_parts[1]; 	

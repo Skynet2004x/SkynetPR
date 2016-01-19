@@ -1,11 +1,15 @@
 <?php
 
 require_once(ROOT.DS.'config'.DS.'config.php');
-
+require_once(ROOT.DS.'lib'.DS.'cart.class.php');
+require_once(ROOT.DS.'lib'.DS.'cookie.class.php');
+	
 function __autoload($class_name){
 	$lib_path = ROOT.DS.'lib'.DS.strtolower($class_name).'.class.php';
 	$controllers_path = ROOT.DS.'controllers'.DS.str_replace('controller', '', strtolower($class_name)).'.controller.php';
 	$model_path = ROOT.DS.'models'.DS.strtolower($class_name).'.php';
+
+
 
 	if ( file_exists($lib_path)){
 		require_once($lib_path);

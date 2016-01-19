@@ -1,0 +1,26 @@
+<H3><?=__('cart_page','Cart page') ?>:</H3>
+<form action="/mainlist/clear_cart" method = "post">   
+<center> 
+<?php $sess = Session::get('id'); //echo"<pre>"; print_r($data['mainlist']); ?>	
+<table class="table-common-img" border="0px">
+	<input type="hidden" name="user_id" id="user_id" value="<?=$sess?>" />	
+	<?php //echo "<pre>"; print_r($data['mainlist']);
+	foreach($data['mainlist'] as $cur_goods){ //echo "<pre>";print_r($cur_goods);?>	
+		<tr>			
+			<td><img src="<?=$cur_goods['path']['path']?>" width="200px"  border="1px" style="margin:10px 10px ;"></td>
+			<td>
+				<?=$cur_goods['name']?> <br>
+				<?=$cur_goods['decs']?> <br>
+				<?=__('form_add_price','Price') ?>: <?=$cur_goods['price']?><?=__('uah','UAH.')?><br>
+				<?=__('cart_date_bye','Date of bye') ?>: <?=$cur_goods['date_time']?>
+			</td>
+			<td>
+				
+			</td>
+		</tr>
+	<?php } ?>
+</table>
+
+	<input type = "submit" value = "<?=__('cart_confirm','Confirm') ?>" class="btn btn-success" />
+</center>
+</form>

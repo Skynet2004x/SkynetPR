@@ -15,15 +15,15 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/admin/"><?=Config::get('site_name')?> - <?=__('admin_page','Admin page') ?></a>
+          <a class="navbar-brand" href="/admin/params/"><?=Config::get('site_name')?> - <?=__('admin_page','Admin page') ?></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
 		  
             <li><a <?php if (App::getRouter()->getController() == 'allusers') {?> class='active' <?php } ?> href="/admin/allusers/"><?=__('users','Users') ?></a></li>
             <li><a <?php if (App::getRouter()->getController() == 'mainlist') {?> class='active' <?php } ?> href="/admin/mainlist/view/"><?=__('admin_goods','Goods') ?></a></li>
-            <li><a <?php if (App::getRouter()->getController() == 'pages') {?> class='active' <?php } ?> href="/admin/pages/"><?=__('content','Content') ?></a></li>
-            <li><a <?php if (App::getRouter()->getController() == 'contacts') {?> class='active' <?php } ?> href="/admin/contacts/"><?=__('Contact','Contact') ?></a></li>            
+            <li><a <?php if (App::getRouter()->getController() == 'pages') {?> class='active' <?php } ?> href="/admin/pages/view/"><?=__('content','Content') ?></a></li>
+            <li><a <?php if (App::getRouter()->getController() == 'contacts') {?> class='active' <?php } ?> href="/admin/contacts/view/"><?=__('Contact','Contact') ?></a></li>            
            <?php 
 				$sess = session::get('login');
 				if ( isset($sess ) == null) { ?> 			
@@ -38,14 +38,19 @@
     </nav>
 
     <div class="container">
-	<?php if(Session::hasFlash()) { ?>
+		<?php if(Session::hasFlash()) { ?>
 		<div class="alert alert-info" role="alert">
 			<?php Session::flash(); ?>
 		</div>
 		<?php } ?>
 	
 		<?php if (App::getRouter()->getController() == 'pages') {?> 
-			  <div class="starter-template">			
+			  <div class="contact-template">			
+				<?=$data['content']?>
+			  </div>
+		<?php } ?>
+		<?php if (App::getRouter()->getController() == 'params') {?> 
+			  <div class="contact-template">			
 				<?=$data['content']?>
 			  </div>
 		<?php } ?>
@@ -65,7 +70,7 @@
 			</div>
 		<?php } ?>		
 		<?php if (App::getRouter()->getController() == 'mainlist') {?> 
-			  <div class="starter-template">			
+			  <div class="contact-template">			
 				<?=$data['content']?>
 			  </div>
 		<?php } ?>

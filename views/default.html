@@ -4,30 +4,58 @@
 	<title><?=Config::get('site_name')?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 	<link rel="stylesheet" href="/css/style.css" type="text/css" />
-
+	<link rel="stylesheet" href="/css/bootstrap.css" type="text/css" />
 	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
 	<link rel="stylesheet" href="/css/bootstrap-theme.min.css" type="text/css" />
-	<script src="/js/bootstrap.min.js"></script>	
+	<link rel="stylesheet" href="/css/bootstrap-theme.css" type="text/css" />
+	
 	
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.js"></script>
 	<script type="text/javascript" src="/js/jquery.cookies.js"></script>
-
+<!--	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.js"></script>
+-->	
 
 </head>
 <body class="tm-body" style="position:relative;top:0px;">
-<div id="logo"><img src="/img/logo.jpg"></div>
+
+<?php $sess = Session::get('login'); 
+if ( isset($sess) != null) {
+	$cart = new Cart((int)Session::get('id')); 
+	if (count($cart->getProducts((int)Session::get('id'))) ) { ?> 						
+		<div id="card"><a href="/mainlist/cart/"><img src="/img/card.png"> Товаров: <?= count($cart->getProducts((int)Session::get('id'))); ?> </a></div>
+<?php } 
+} ?>
+
+<div id="logo"><img src="/img/logo.jpg"> </div>
     <nav class="navbar navbar-inverse "><!-- navbar-fixed-top -->
       <div class="container">
         <div class="navbar-header">
           <a class="navbar-brand" href="/"><?=Config::get('site_name')?></a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
+        <div id="responsive-menu" class="collapse navbar-collapse" >
           <ul class="nav navbar-nav">
             <?php 
-				$sess = session::get('login');
+				
 				if ( isset($sess ) != null) { ?> 						
-					<li><a <?php if (App::getRouter()->getController() == 'add') {?> class='active' <?php } ?> href="/mainlist/add"><?=__('add','Add') ?></a></li>
-					<li><a <?php if (App::getRouter()->getController() == 'userprofile') {?> class='active' <?php } ?> href="/mainlist/userprofile/<?=Session::get('id')?>"><?=__('profile','Profile') ?></a></li>
+				
+				<li class="dropdown" >
+					<a href="/" class="dropdown-toggle" data-toggle="dropdown"  ><?=__('profile','Profile') ?> <b class="caret"></b> </a>
+					<ul class="dropdown-menu">
+						<li><a <?php if (App::getRouter()->getController() == 'userprofile') {?> class='active' <?php } ?> href="/mainlist/userprofile/<?=Session::get('id')?>"><?=__('ads','Ads') ?></a></li>
+						<li><a <?php if (App::getRouter()->getController() == 'pages') {?> class='active' <?php } ?> href="/pages/profileview/<?=Session::get('id')?>"><?=__('content','Сontent') ?></a></li>
+
+					<!--	
+						<li><a <?php if (App::getRouter()->getController() == 'add') {?>  <?php } ?> href="/mainlist/add"><?=__('add_ads','Add ads') ?></a></li>
+						<li><a <?php if (App::getRouter()->getController() == 'addpage') {?>  <?php } ?> href="/pages/addpage"><?=__('add_page','Add page') ?></a></li>
+					-->
+					
+					</ul>
+				</li>
+				
+				
+				
 			<?php } ?>
             <li><a <?php if (App::getRouter()->getController() == 'pages') {?> class='active' <?php } ?> href="/pages/"><?=__('content','Content') ?></a></li>
             <li><a <?php if (App::getRouter()->getController() == 'contacts') {?> class='active' <?php } ?> href="/contacts/"><?=__('Contact','Contact') ?></a></li>
@@ -84,13 +112,7 @@
 			</div>
 		<?php } ?>
 		
-    </div><!-- /.container -->
-	<!-- <div id="right">ldfjgjdfhgjdfhgjdfhgj</div>-->
+    </div>
 	<div id="footer" ><img src="/img/logo.jpg">kdsbfkgfkjsdgfkjhdsgfhg</div>
-
-	
-	
-	
-
 </body>
 </html>

@@ -1,8 +1,4 @@
 <?php
-/**
- * Class Cart
- */
-
 class Cart
 {
     /**
@@ -16,12 +12,18 @@ class Cart
     /**
      *  Constructor
      */
-    function __construct()
+    function __construct($user_id)
     {
-        $this->products = Cookie::get('books') == null ?
+		
+		/*$sql = "SELECT count(id) FROM cart where user_id = {$user_id}";
+		$db = DB::getInstance(Config::get('db.host'), Config::get('db.user'), Config::get('db.password'), Config::get('db.db_name'));
+		$res = $db->query($sql);
+		print_r($res);
+		$this->products = Cookie::get('ads') == null ? array() : $res[0];
+        /*$this->products = Cookie::get('ads') == null ?
             array()
             :
-            unserialize(Cookie::get('books'));
+            unserialize(Cookie::get('ads'));*/
     }
 
 
@@ -30,8 +32,13 @@ class Cart
      *
      * @return mixed
      */
-    public function getProducts()
-    {
+    public function getProducts($user_id)
+    {		
+	
+$sql = "SELECT count(id) FROM cart where user_id = {$user_id}";
+		$db = DB::getInstance(Config::get('db.host'), Config::get('db.user'), Config::get('db.password'), Config::get('db.db_name'));
+		$res = $db->query($sql);
+		print_r($res);	
         return $this->products;
     }
 
@@ -41,15 +48,17 @@ class Cart
      *
      * @param $id
      */
-    public function addProduct($id)
+    public function addProduct($id, $user)
     {
         $id = (int)$id;
+		$user_id = (int)$user;
+		
 
         if (!in_array($id, $this->products)) {
             array_push($this->products, $id);
         }
 
-        Cookie::set('books', serialize($this->products));
+        Cookie::set('ads'.$user_id, serialize($this->products));
     }
 
 
@@ -58,7 +67,7 @@ class Cart
      *
      * @param $id
      */
-    public function deleteProduct($id)
+    public function deleteProduct($id, $user_id)
     {
         $id = (int)$id;
 
@@ -67,7 +76,7 @@ class Cart
             unset($this->products[$key]);
         }
 
-        Cookie::set('books', serialize($this->products));
+        Cookie::set('ads'.$user_id, serialize($this->products));
     }
 
 
@@ -76,7 +85,7 @@ class Cart
      */
     public function clear()
     {
-        Cookie::delete('books');
+        Cookie::delete('ads');
     }
 
 
