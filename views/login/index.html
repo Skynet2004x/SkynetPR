@@ -1,4 +1,4 @@
-<H3><?=__('login','Login') ?></H3>
+<H3><?=__('login_form','Login form') ?></H3>
 <br/>
 <form method="post" action="">
 	<div class="form-group">
@@ -10,8 +10,11 @@
 		<input type="password" id="password" name="password" class ="form-control" />
 	</div>
 	<div class="form-group">
-		<a href="/login/registration">Зарегистрироваться</a> <br/>
+		<a href="/login/registration"><?=__('registration','Registration') ?></a> <br/>
 	</div>
-	<a href="/login/user/confirm/<?=$page_data['id']?>"><button class="btn btn-success" ><?=__('login','submit') ?></button></a>
-	
+	<div class="form-group">
+		<a href="/login/remember"><?=__('remember','Remember') ?></a> <br/>
+	</div>	
+	<a href="/login/user/confirm/<?=$page_data['id']?>"><button class="btn btn-success" ><?=__('login_form','submit') ?></button></a>
+	<input type="submit" class="btn btn-warning" name="back" value = "<?=__('admin_cancel','Cancel') ?>"/>
 </form>

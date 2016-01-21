@@ -1,0 +1,37 @@
+<H3><?=__('admin_params','Parameters') ?>:</H3>
+<br/>
+<?php //print_r($data['params']['id']);?>
+<form method="post" action="">
+<input type="hidden" name="id" id="id"value="<?=$data['params']['id']?>" />
+	<div class="form-group">
+		<label for="login"><?=__('users_list_name','Name') ?></label>
+		<input type="text" id="login" name="login" value="<?=$data['params']['login']?>" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<label for="password"><?=__('password','Password') ?></label>
+		<input type="text" id="password" name="password" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<label for="password2"><?=__('password_confirm','Password confirm') ?></label>
+		<input type="text" id="password2" name="password2" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<label for="Email"><?=__('users_list_email','Email') ?></label>
+		<input type="text" id="email" name="email" value="<?=$data['params']['email']?>" class="form-control"/>
+	</div>
+	<div class="form-group">
+		<label for="role"> <?=__('users_list_role','Role') ?> </label>
+		<textarea id="role" name="role" class="form-control"><?=$data['params']['role']?></textarea>
+	</div>
+	<div class="form-group">
+		<label for="city"> <?=__('users_list_city','City') ?> </label>
+		<textarea id="city" name="city" class="form-control"><?=$data['params']['city']?></textarea>
+	</div>
+	<div class="form-group">
+		<label for="active"><?=__('active','Active ?') ?></label>
+		<input type="checkbox" id="is_active" name="is_active" <?php if ($data['params']['is_active']) { ?> checked="checked" <?php } ?> />
+	</div>
+	<input type="submit" class="btn btn-success"/>
+	<input type="submit" class="btn btn-warning" name="back" value = "<?=__('admin_cancel','Cancel') ?>" onClick="window.location = '/admin/allusers/'"/>
+
+</form>

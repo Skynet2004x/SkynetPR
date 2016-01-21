@@ -5,9 +5,9 @@ class View{
 	protected $data;
 	protected $path;
 	
-	protected static function getDefaultViewPath(){
+	protected static function getDefaultViewPath() {
 			$router = App::getRouter();
-			if(!$router){
+			if( !$router ) {
 				return false;
 			}
 			$controller_dir = $router->getController();
@@ -15,23 +15,22 @@ class View{
 			return VIEW_PATH.DS.$controller_dir.DS.$template_name;
 	}
 	
-	public function __construct($data = array(), $path = null){
-		if (!$path){
+	public function __construct($data = array(), $path = null) {
+		if ( !$path ) {
 			$path = self::getDefaultViewPath();
 		}
-		if (!file_exists($path)){
+		if ( !file_exists( $path ) ) {
 			throw new Exception('Шаблон не найден'.$path);
 		}
 		$this->data = $data;
-		$this->path = $path;
-		
+		$this->path = $path;		
 	}
-	
-	public function render(){
+	// основной метод рендера вьюшек
+	public function render() {
 		$data = $this->data;
 		
 		ob_start();
-		include($this->path);
+		include( $this->path );
 		$content = ob_get_clean();
 		return $content;
 	}

@@ -1,5 +1,5 @@
 <?php
-
+// класс навигации по страницам
 class Pagination
 {
 
@@ -9,23 +9,23 @@ class Pagination
     {
         extract($options);
 
-        /** @var int $currentPage */
-        if (!$currentPage) {
+        /* int $currentPage */
+        if ( !$currentPage ) {
             return;
         }
 
-        /** @var int $pagesCount
-         *  @var int $itemsCount
-         *  @var int $itemsPerPage
+        /* int $pagesCount
+         * int $itemsCount
+         * int $itemsPerPage
          */
         $pagesCount = ceil($itemsCount / $itemsPerPage);
 
-        if ($pagesCount == 1) {
+        if ( $pagesCount == 1 ) {
             return;
         }
 
-        /** @var int $currentPage */
-        if ($currentPage > $pagesCount) {
+        /* int $currentPage */
+        if ( $currentPage > $pagesCount ) {
             $currentPage = $pagesCount;
         }
 

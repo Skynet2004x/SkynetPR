@@ -58,9 +58,13 @@ return array(
 'content_table' => 'Список статей',
 'action_content_table' => 'Действия',
 'logout' => 'Выход',
-'login' => 'Вход',
+'login' => 'Имя',
+'login_form' => 'Вход',
+
 'password' => 'Пароль',
 'password_confirm' => 'Подтверждение пароля',
+'registration' => 'Регистрация',
+'remember' => 'Напомнить пароль',
 
 'message_list' => 'Список сообщений',
 'message_num' => '№',
@@ -77,6 +81,7 @@ return array(
 'users_list_unpublish' => 'Отключить',
 'users_list_del' => 'Удалить',
 'users_my_goods' => 'Мои объявления',
+'profile' => 'Профиль',
 
 'form_add' => 'Размещение объявления',
 'form_add_name' => 'Название',

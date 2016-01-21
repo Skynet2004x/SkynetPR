@@ -8,13 +8,14 @@ class Main_list extends Model{
 		$file_keys = array_keys($file_post);
 
 		for ($i=0; $i<$file_count; $i++) {
-			foreach ($file_keys as $key) {
-				if ($file_post[error][$i] == 0 ) {
-					$file_ary[$i][$key] = $file_post[$key][$i];
+			foreach ( $file_keys as $key ) {
+				if ( $file_post[error][$i] == 0 ) {
+					$file_ary[$i][$key] = $file_post[$key][$i];					
+					//$file_ary[$i]['name'] = self::convertStr($file_ary[$i]['name']);						
 				}
 			}
-		}
-
+			
+		} 
 		return $file_ary;
 	}
 	
@@ -30,47 +31,48 @@ class Main_list extends Model{
 	}	
 	
 	public function disActiveGood($good_id){								
-				$sql = "UPDATE goods SET active = 0 WHERE id = {$good_id}";
-				return $this->db->query($sql);
+		$sql = "UPDATE goods SET active = 0 WHERE id = {$good_id}";
+		return $this->db->query($sql);
 	}
 	
 	public function getEmailByUserId($user_id){								
-				$sql = "SELECT email FROM users WHERE id = {$user_id}";
-				return $this->db->query($sql)[0]['email'];
+		$sql = "SELECT email FROM users WHERE id = {$user_id}";
+		return $this->db->query($sql)[0]['email'];
 	}
-	
-	
+		
 	// отбор товаров с вариантов отбора по ид товара.
 	public function getList($only_published = false, $good_id = null){
-		$curent_user_id = Session::get('id');
+		
+		$curent_user_id = getId();
 		
 		$sql = "SELECT g.id AS goods_id, g.name AS goods_name, g.cur_price AS goods_cur_price, g.decs AS goods_decs, g.num_days AS goods_num_days, g.price AS goods_price, g.start_time AS goods_start_time, g.step_price AS goods_step_price, p.path AS photo_path, p.goods_id AS photo_goods_id, u.login AS user_login, u.email as user_email, u.id AS user_id, r.value AS rating_value, r.id AS rating_id, '' as goods_days_left
-				 FROM goods g
-				 left JOIN photo p ON g.id = p.goods_id
-				 JOIN users u ON g.user_id = u.id
-                 LEFT JOIN rating r ON g.id = r.goods_id ";
-				 if ($good_id != null) {
+				FROM goods g
+				left JOIN photo p ON g.id = p.goods_id
+				JOIN users u ON g.user_id = u.id
+                LEFT JOIN rating r ON g.id = r.goods_id ";
+				if ( $good_id != null ) {
 					$sql .= " WHERE u.is_active = 1 and g.active = 1 and g.id = {$good_id}"; 
-				 } else {
-					if (isset($curent_user_id) == null) {
+				} else {
+					if ( isset($curent_user_id) == null ) {
 						$sql .= " WHERE u.is_active = 1 and g.active = 1 and g.start_time <= current_timestamp() ";
 					} else {
 						$sql .= " WHERE u.is_active = 1 and g.active = 1 and g.start_time <= current_timestamp() and g.user_id <> {$curent_user_id}";
 					}
-				 }				 
-				 $sql .= " GROUP BY g.id";				 
+				}				 
+				$sql .= " GROUP BY g.id";
+
 		$result = $this->db->query($sql);
 		$need_refresh = 0;
 		foreach ($result as &$val){			
 			$val['goods_days_left'] = $this->getTimeFromDate($val['goods_start_time'] , $val['goods_num_days'] );
-			if ((int)$val['goods_days_left'] < 0 ) { // скрыть все что с истекшим сроком
+			if ( (int)$val['goods_days_left'] < 0 ) { // скрыть все что с истекшим сроком
 								
 				$this->disActiveGood($val['goods_id']);			
 				$need_refresh = 1;
 			}
 									
 		}
-		if ($need_refresh == 1){
+		if ( $need_refresh == 1 ) {
 			$this->getList();
 		}		
 		return $result;	
@@ -85,13 +87,13 @@ class Main_list extends Model{
 			$need_refresh = 0;							
 			foreach ($result as &$val){			
 				$val['goods_days_left'] = $this->getTimeFromDate($val['goods_start_time'] , $val['goods_num_days'] );				
-					if( (int)$val['goods_days_left']  < 0){ 
+					if( (int)$val['goods_days_left']  < 0 ){ 
 						// отключить актуальность но показать				
 						$this->disActiveGood($val['goods_id']);			
 						$need_refresh = 1;							
 					}					
 			}
-			if ($need_refresh == 1){
+			if ( $need_refresh == 1 ){
 				$this->getGood($params);
 			}			
 			$sql = "SELECT p.path AS photo_path
@@ -107,15 +109,13 @@ class Main_list extends Model{
 	
 	// отбор товаров конкретного юзера с вариантов отбора по ид юзера.
 	public function getListForUser($user_id = null){
-		//$user_id = Session::get('id');
-						
 		$sql = "SELECT g.id AS goods_id, g.name AS goods_name, g.cur_price AS goods_cur_price, g.decs AS goods_decs, g.num_days AS goods_num_days, g.price AS goods_price, g.start_time AS goods_start_time, g.step_price AS goods_step_price, p.path AS photo_path, p.goods_id AS photo_goods_id, u.login AS user_login, u.id AS user_id,  '' as goods_days_left, g.active AS goods_active, cb.winer as winer,  cb.user_id as winer_id , u1.login as winer_login
 				FROM goods g
 				LEFT JOIN photo p ON g.id = p.goods_id
 				JOIN users u ON g.user_id = u.id
 				LEFT JOIN curent_buyer cb ON g.id = cb.goods_id
 				LEFT JOIN users u1 ON u1.id = cb.user_id";
-			if ($user_id == null) {
+			if ( $user_id == null ) {
 				$sql .= " WHERE u.is_active = 1 "; 
 			} else {			
 				$sql .= " WHERE u.is_active = 1 and g.user_id = {$user_id}"; 
@@ -123,15 +123,15 @@ class Main_list extends Model{
 		$sql .= " GROUP BY g.id";	
 		$result	= $this->db->query($sql);
 		$need_refresh = 0;
-		foreach ($result as &$val){
+		foreach ( $result as &$val ) {
 			$val['goods_days_left'] = $this->getTimeFromDate($val['goods_start_time'] , $val['goods_num_days'] );			
-			if( (int)$val['goods_days_left'] < 0){ 
+			if( (int)$val['goods_days_left'] < 0 ) { 
 			// отключить актуальность но показать				
 				$this->disActiveGood($val['goods_id']);	
 				$need_refresh = 1;				
 			}
 		}		
-		if ($need_refresh == 1){
+		if ( $need_refresh == 1 ) {
 			$this->getListForUser($user_id);
 		}				
 		//print_r($result);
@@ -143,7 +143,7 @@ class Main_list extends Model{
 				JOIN users u ON cb.user_id = u.id
 				where u.is_active = 1 and cb.goods_id = {$val['goods_id']} #cb.user_id = {$user_id} and";
 				$result_w = $this->db->query($sql);
-			if($result_w != null) {
+			if( $result_w != null ) {
 				$val['winer_u'] = $result_w;			
 			} 
 			
@@ -151,7 +151,7 @@ class Main_list extends Model{
 		return $result;				
 	}
 	
-	public function getDetail($params){		
+	public function getDetail($params) {		
 		$sql = "SELECT g.id AS goods_id, g.name AS goods_name, g.cur_price AS goods_cur_price, g.decs AS goods_decs, g.num_days AS goods_num_days, g.price AS goods_price, g.start_time AS goods_start_time, g.step_price AS goods_step_price, p.path AS photo_path, p.goods_id AS photo_goods_id, u.login as user_login, u.email as user_email, u.id as user_id, r.value AS rating_value, r.id AS rating_id, '' as goods_days_left, g.active AS goods_active
 				 FROM goods g
 				 left JOIN photo p ON g.id = p.goods_id	
@@ -161,15 +161,15 @@ class Main_list extends Model{
 											
 		$result = $this->db->query($sql);
 		$need_refresh = 0;
-		foreach ($result as &$val){			
+		foreach ( $result as &$val ) {			
 				$val['goods_days_left'] = $this->getTimeFromDate($val['goods_start_time'] , $val['goods_num_days'] );				
-					if( (int)$val['goods_days_left']  < 0){ 
+					if( (int)$val['goods_days_left']  < 0 ) { 
 						// отключить актуальность но показать				
 						$this->disActiveGood($val['goods_id']);			
 						$need_refresh = 1;							
 					}					
 			}
-			if ($need_refresh == 1){
+			if ( $need_refresh == 1 ) {
 				$this->getDetail($params);
 			}	
 		return $result;	
@@ -178,19 +178,18 @@ class Main_list extends Model{
 	
 	public function  updateCurrentPrice(){		
 		if(isset($_POST['id']) && isset($_POST['user_id'])){
-			$good_id = $this->db->escape($_POST['id']);
+			$good_id = (int)$_POST['id'];
 			$user_id = $this->db->escape($_POST['user_id']);
 			$res = $this->getDetail(array('0'=>$good_id));
 			
 				$cur_goods = $res[0];			
 				if ($cur_goods['goods_cur_price'] != $cur_goods['goods_price']){
 					// проверим когда пользователь нажимал эту кнопку последний раз . период 1 раз в час
-					$sql = "SELECT date_time , max(id) FROM byers WHERE user_id = {$user_id} AND goods_id = {$good_id}";
+					$sql = "SELECT  60-(UNIX_TIMESTAMP( current_timestamp ) - UNIX_TIMESTAMP( date_time ))/60 as time_left , max(id) FROM byers WHERE user_id = {$user_id} AND goods_id = {$good_id}";
 					$result_time = $this->db->query($sql);
 					
-					if (isset($result_time[0]['date_time'])){
-						$time_left = (int)(120-(time() - strtotime($result_time[0]['date_time']))/60);
-						//print_r($time_left); die;
+					if (isset($result_time[0]['time_left'])){
+						$time_left = (int)$result_time[0]['time_left']; // из хитроумного запроса получаем сразу время которое исталось ждать след. ставки						
 						if ( ($time_left >= 0 ) && ($time_left <= 61)) {
 							echo "Следующая ставка будет доступна через {$time_left} минут";
 							return true;						
@@ -201,11 +200,11 @@ class Main_list extends Model{
 							
 							// обновим див с текущей ценой
 							$new_price = $cur_goods['goods_step_price']+$cur_goods['goods_cur_price'];
-						echo "<label id='lbl_cur_price'>".__('form_add_price','Price').":</label> <button id='btn_cur_pr' class='btn btn-sm btn-success' onClick='javascript: byestep({$cur_goods['goods_id']},".Session::get('id').",{$cur_goods['goods_step_price']},{$cur_goods['goods_cur_price']},{$cur_goods['goods_price']});'>{$new_price} грн.</button>";																	
+						echo "<label id='lbl_cur_price'>".__('form_add_price','Price').":</label> <button id='btn_cur_pr' class='btn btn-sm btn-success' onClick='javascript: byestep({$cur_goods['goods_id']},".getId().");'>{$new_price} грн.</button>";																	
 						};	
 					}else {
 						$new_price = $cur_goods['goods_step_price']+$cur_goods['goods_cur_price'];
-					echo "<label id='lbl_cur_price'>".__('form_add_price','Price')."</label> <button id='btn_cur_pr' class='btn btn-sm btn-success' onClick='javascript: byestep({$cur_goods['goods_id']},".Session::get('id').",{$cur_goods['goods_step_price']},{$cur_goods['goods_cur_price']},{$cur_goods['goods_price']});'>{$new_price} грн.</button>";																	
+					echo "<label id='lbl_cur_price'>".__('form_add_price','Price')."</label> <button id='btn_cur_pr' class='btn btn-sm btn-success' onClick='javascript: byestep({$cur_goods['goods_id']},".getId().");'>{$new_price} грн.</button>";																	
 					
 					}					
 				} else {
@@ -217,29 +216,26 @@ class Main_list extends Model{
 	
 	public function  byeStep(){	
 		
-		if(isset($_POST['id']) && isset($_POST['user_id'])&& isset($_POST['cur_price'])){
-			$good_id    = $this->db->escape($_POST['id']);
-			$cur_price  = $this->db->escape($_POST['cur_price']);
+		if( isset($_POST['id']) && isset($_POST['user_id']) ) {
+			$good_id    = (int)$_POST['id'];
 			$user_id    = $this->db->escape($_POST['user_id']);			
-			$step_price = $this->db->escape($_POST['step_price']);
-			$c_max_price  = $this->db->escape($_POST['c_max_price']);
+			// надо взять из базы стоимости товаров текущей, шаг, текущей + шаг , максималка
+			$sql = "SELECT * FROM goods where id = {$good_id }";
+			$res = $this->db->query($sql);
+			
+			$cur_price  = $res[0]['cur_price'];
+			$step_price = $res[0]['step_price'];
+			$max_price  = $res[0]['price'];
 			$new_cur_price = $cur_price + $step_price;						
 			// сначала надо проверить не равна ли новая цена максимальной.
-			//print_r($_POST);
-			/*var_dump( $c_max_price);
-			var_dump( $new_cur_price > (int)$c_max_price);
-			*/
-					
-			if( $new_cur_price >= (int)$c_max_price){ // приплыли... последняя ставка сделана
+
+			if( $new_cur_price >= (int)$max_price){ // приплыли... последняя ставка сделана
 
 				// записать в базу победителя. 
 				//добавить в карзину
-				//закрыть товар
+				//закрыть товар	
 					
-					//$sql = "SELECT date_time , max(id) FROM byers where user_id = {$user_id} AND goods_id = {$good_id}; ";
-					//$res = $this->db->query($sql);	
-					
-					$sql = "UPDATE goods SET cur_price ={$c_max_price}, active = 0 WHERE id = {$good_id}; ";
+					$sql = "UPDATE goods SET cur_price ={$max_price}, active = 0 WHERE id = {$good_id}; ";
 					$res = $this->db->query($sql);
 					
 					$sql = "INSERT INTO byers (goods_id, user_id) VALUES ({$good_id},{$user_id}); ";
@@ -248,16 +244,13 @@ class Main_list extends Model{
 					$sql = "INSERT INTO cart (goods_id, user_id) VALUES ({$good_id},{$user_id}); ";								
 					$res = $this->db->query($sql);					
 					
-					$sql = "INSERT INTO curent_buyer (goods_id, user_id, set_price, winer) VALUES ({$good_id},{$user_id}, {$c_max_price}, 1)";			
+					$sql = "INSERT INTO curent_buyer (goods_id, user_id, set_price, winer) VALUES ({$good_id},{$user_id}, {$max_price}, 1)";			
 					$res = $this->db->query($sql);	
 
-					if ((int)Config::get('sendemail') == 1) {									
-						self::sendEmail(Session::get('email'),Session::get('login'),"Congratulations! You win");
-						self::sendEmail($this->getEmailByUserId($user_id),$user_id,"Congratulations! You sold");
-					}		
+		
 		// тут надо определеить чей товар и ему отправить письмо
 					echo __('ads_sold','Sold');die;
-					return false;					
+					return "sold";					
 			} else { // торгуем дальше 							
 				
 				$sql2 = "INSERT INTO byers (goods_id, user_id) VALUES ({$good_id},{$user_id})";
@@ -279,11 +272,17 @@ class Main_list extends Model{
 	}
 
 	public function soldMaxPrice(){
-			if(isset($_POST['id']) && isset($_POST['user_id'])&& isset($_POST['c_max_price'])){
-				$good_id = $this->db->escape($_POST['id']);
-				$c_max_price = (int)$this->db->escape($_POST['c_max_price']);
-				$user_id = $this->db->escape($_POST['user_id']);			
+			if( isset($_POST['id']) && isset($_POST['user_id']) ) {
+				$good_id = (int)$_POST['id'];
+				$user_id = (int)$_POST['user_id'];			
 				
+				$sql = "SELECT * FROM goods where id = {$good_id }";
+				$res = $this->db->query($sql);
+				
+				$cur_price  = $res[0]['cur_price'];
+				$step_price = $res[0]['step_price'];
+				$max_price  = $res[0]['price'];				
+
 				// проверим когда пользователь нажимал эту кнопку последний раз . период 1 раз в час
 				$sql = "SELECT date_time , max(id) FROM byers where user_id = {$user_id} AND goods_id = {$good_id}";
 				$res = $this->db->query($sql);
@@ -291,22 +290,17 @@ class Main_list extends Model{
 				$sql = "INSERT INTO byers (goods_id, user_id) VALUES ({$good_id},{$user_id})";			
 				$res = $this->db->query($sql);	
 
-				$sql = "INSERT INTO curent_buyer (goods_id, user_id, set_price, winer) VALUES ({$good_id},{$user_id}, {$c_max_price}, 1)";			
+				$sql = "INSERT INTO curent_buyer (goods_id, user_id, set_price, winer) VALUES ({$good_id},{$user_id}, {$max_price}, 1)";			
 				$res = $this->db->query($sql);	
 				
-				$sql = "UPDATE goods SET cur_price ={$c_max_price}, active = 0 WHERE id = {$good_id}";
+				$sql = "UPDATE goods SET cur_price ={$max_price}, active = 0 WHERE id = {$good_id}";
 				$res = $this->db->query($sql);	
 				
 				$sql = "INSERT INTO cart (goods_id, user_id) VALUES ({$good_id},{$user_id})";			
-				$res = $this->db->query($sql);	
-
-				if ((int)Config::get('sendemail') == 1) {									
-					self::sendEmail(Session::get('email'),Session::get('login'),"Congratulations! You win");
-					self::sendEmail($this->getEmailByUserId($user_id),$user_id,"Congratulations! You sold");
-				}
+				$res = $this->db->query($sql);			
 				
 				echo __('ads_sold','Sold');
-				return true;							
+				return "sold";							
 			}
 			return	false;		
 	}
@@ -314,10 +308,10 @@ class Main_list extends Model{
 	
 	public function rating(){
 	
-		if(isset($_POST['goods_id']) && isset($_POST['user_votes'])){
-			$good_id = $this->db->escape($_POST['goods_id']);
+		if( isset($_POST['goods_id']) && isset($_POST['user_votes']) ) {
+			$good_id = (int)$_POST['goods_id'];
 			$value = round($this->db->escape($_POST['user_votes']),2);
-			if (isset($_POST['rating_id']) && $_POST['rating_id']!=0 ) {				
+			if ( isset($_POST['rating_id']) && $_POST['rating_id']!=0 ) {				
 				$rating_id = $this->db->escape($_POST['rating_id']);
 				$sql = "update rating SET value = {$value} WHERE id = {$rating_id} and goods_id = {$good_id}";			
 				$res = $this->db->query($sql);
@@ -335,17 +329,19 @@ class Main_list extends Model{
 
 	public function save($good_id = null){
 		
-		if (isset($_FILES)) {	
+		if ( isset($_FILES) ) {	
+			
 			$file_ary = $this->reArrayFiles($_FILES['filename']);
-			foreach ($file_ary as $file) {
+			
+			foreach ( $file_ary as $file ) {
 			
 			   if($file["size"] > 1024*1*1024)
 			   {
-				 echo ("Размер файла превышает три мегабайта");
+				 echo ("Размер файла превышает 1 мегабайт");
 				 exit;
 			   }
 			   // Проверяем загружен ли файл
-			   if(is_uploaded_file($file["tmp_name"]))
+			   if( is_uploaded_file($file["tmp_name"]) )
 			   {
 				 // Если файл загружен успешно, перемещаем его
 				 // из временной директории в конечную
@@ -356,7 +352,7 @@ class Main_list extends Model{
 			}
 		}	
 		
-		if(strlen($_POST['name'])>0 && strlen($_POST['price'])>0 && strlen($_POST['start_time'])>0 && strlen($_POST['num_days'])>0 && strlen($_POST['step_price'])>0){
+		if( strlen($_POST['name'])>0 && strlen($_POST['price'])>0 && strlen($_POST['start_time'])>0 && strlen($_POST['num_days'])>0 && strlen($_POST['step_price'])>0 ) {
 			
 			$good_name = $this->db->escape($_POST['name']);
 			$good_price = $this->db->escape($_POST['price']);
@@ -372,7 +368,7 @@ class Main_list extends Model{
 			}
 			$good_user_id = $this->db->escape($_POST['user_id']);			
 			
-			if(strlen($_POST['goods_id'])>0) {
+			if( strlen($_POST['goods_id'])>0 ) {
 				$sql = "update goods SET `name` = '{$good_name}' ,
 										user_id = {$good_user_id} ,
 										decs = '{$good_desc}' ,
@@ -401,9 +397,9 @@ class Main_list extends Model{
 				$res = $this->db->query($sql);	
 				
 			}
-			if (count($file_ary)>0) {
+			if ( count($file_ary)>0 ) {
 				$sql = "INSERT INTO photo (goods_id, path) VALUES ";
-				foreach ($file_ary as $file) {
+				foreach ( $file_ary as $file ) {
 					
 					$goods_path = '/webroot/uploads/'.$file["name"];
 					$sql .= " ({$res[0]['goods_id']},'{$goods_path}'),";						
@@ -432,7 +428,7 @@ class Main_list extends Model{
                 WHERE c.user_id = {$user_id}";
 		$result = $this->db->query($sql);
 		
-		foreach($result as &$val) {
+		foreach( $result as &$val ) {
 			$sql = "SELECT p.path FROM photo p
 			join goods g on p.goods_id = g.id
 			join cart c on c.goods_id = g.id
@@ -444,7 +440,7 @@ class Main_list extends Model{
 	}
 	
 	public function updateCart(){
-			$user_id =	$_POST['user_id'];
+			$user_id =	(int)$_POST['user_id'];
 			$sql = "SELECT *, count(c.id) as num FROM cart c
 					left JOIN goods g ON g.id = c.goods_id	
 					WHERE c.user_id =  {$user_id}";

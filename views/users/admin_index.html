@@ -1,0 +1,51 @@
+<H3><?=__('users_list','Users list') ?>:</H3>
+
+<table class="table table-striped" style ="width:100%;" border="0px">
+	<tr>
+		<td style ="width:20%"><?=__('users_list_name','Name') ?></td>
+		<td style ="width:40%"><?=__('users_list_email','Email') ?></td>
+		<td style ="width:30%"><?=__('users_list_city','City') ?></td>
+		<td style ="width:10%"><?=__('users_list_role','Role') ?></td>
+		<td style ="width:10%"><?=__('users_list_unpublish','Unpublish') ?></td>
+		<td style ="width:10%"><?=__('users_list_del','Delete') ?></td>
+		<td></td>
+	</tr>
+	
+	<?php foreach ($data as $item1) {
+		foreach ($item1 as $item)	{ 
+		?>
+		<tr>
+			<td><?=$item['login']?></td>
+			<td><?=$item['email']?></td>
+			<td><?=$item['city']?></td>
+			<td><?=$item['role']?></td>
+			<td> <?php if($item['is_active'] == 1){?> 
+				<a href="/admin/users/unactive/<?=$item['id']?>"><button class="btn btn-sm btn-success" ><?=__('admin_hide_butn','Hide') ?></button></a>
+			<?php } else {?> 
+				<a href="/admin/users/active/<?=$item['id']?>"><button class="btn btn-sm btn-success" ><?=__('admin_show_butn','Show') ?></button></a> 
+			<?php }?> 
+				 </td>
+			<td> <a href="/admin/users/delete/<?=$item['id']?>"><button class="btn btn-sm btn-warning" onclick="return confirmDelete();"><?=__('admin_delete_butn','Delete') ?></button></a> </td>
+			<td><?php if (Session::get('role') != 'admin' && Session::get('role') != 'user' ) { ?>		
+				<a href="/admin/user/login/" > <?=__('users_list_name_autorize_need','Login for send email') ?> </a>
+				<?php }	else { ?>  </a> 
+		
+
+			</td>
+		<tr>
+			<td colspan="7">
+				<a href="/admin/users/edit/<?=$item['id']?>">Редактировать</a>
+				<a href="/admin/mainlist/view/<?=$item['id']?>">Объявления</a>
+				<a href="/admin/pages/view/<?=$item['id']?>">Статьи</a>
+				<a href="/admin/comments/<?=$item['id']?>">Комментарии</a>
+				<a href="/admin/contacts/view/<?=$item['id']?>">Сообщения</a>
+			</td>
+		</tr>
+	
+		<?php } }?> 
+			
+		</tr>
+	<?php } ?>
+	
+</table>
+<a href="/admin/users/add/"><button class="btn btn-sm btn-success"><?=__('admin_user_new','New user') ?></button></a>

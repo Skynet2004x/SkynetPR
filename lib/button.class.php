@@ -1,5 +1,5 @@
 <?php
-
+// класс кнопок навигации по страницам
 class Button
 {
     public $page;

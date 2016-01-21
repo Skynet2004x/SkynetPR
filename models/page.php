@@ -3,26 +3,26 @@
 class Page extends Model{
 	
 	
-	public function getList($user_id = null, $only_published = false){
+	public function getList($user_id = null, $only_published = false) {
 				 
 		$sql = "SELECT p.id, p.alias, p.title,p.date_time, p.content, p.is_published, u.id as user_id, u.login FROM pages p LEFT JOIN users u on p.user_id = u.id WHERE 1";
-		if ( $only_published ){
+		if ( $only_published ) {
 			$sql .= " and p.is_published = 1";
 		}
-		if ( $user_id != null){
+		if ( $user_id != null ) {
 			$sql .= " and u.id = {$user_id}";
 		} 
 		return $this->db->query($sql);
 	}	
 	
-	public function getByAlias($alias){
+	public function getByAlias($alias) {
 		$alias = $this->db->escape($alias);
 		$sql = "select * from pages where alias ='{$alias}' limit 1";
 		$result = $this->db->query($sql);
 		return isset($result[0]) ? $result[0] : null;
 	}
 	
-	public function getByUserId($user_id){
+	public function getByUserId($user_id) {
 		
 		$user_id = $this->db->escape($user_id);
 		$sql = "select * from pages where user_id = '{$user_id}'";
@@ -30,16 +30,16 @@ class Page extends Model{
 		
 	}	
 	
-	public function getById($id){
+	public function getById($id) {
 		$id = (int)$id;		
 		$sql = "select * from pages where id ='{$id}' limit 1";
 		$result = $this->db->query($sql);
 		return isset($result[0]) ? $result[0] : null;
 	}	
 	
-	public function save($data, $id = null){
+	public function save($data, $id = null) {
 	
-		if( !isset($data['alias']) && !isset($data['title']) && !isset($data['content']) ){ //&& (strlen($data['alias'])=0) && (strlen($data['title'])=0) && (strlen($data['content'])=0)) {
+		if( !isset($data['alias']) && !isset($data['title']) && !isset($data['content']) ) { 
 			return false;			
 		}
 		
@@ -50,7 +50,7 @@ class Page extends Model{
 		$date_time = $this->db->escape($data['date_time']).' 00:00:00';
 		$is_published = isset($data['is_published']) ? 1 : 0;
 		
-		if(!$id){ //add new 
+		if(!$id) { //add new 
 			$sql = "
 				insert into pages
 				set alias = '{$alias}',
@@ -74,7 +74,7 @@ class Page extends Model{
 		}
 		return $this->db->query($sql);
 	}	
-	public function delete($id){
+	public function delete($id) {
 		
 		$sql = "delete from pages where id = {$id}";			
 		return $this->db->query($sql);					

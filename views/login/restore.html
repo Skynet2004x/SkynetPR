@@ -1,0 +1,16 @@
+<H3><?=__('restore','Restore') ?>:</H3>
+<br/>
+
+<form method="post" action="/login/restore/">
+	
+    <label for="password"> <?=__('password','Password') ?> </label>
+    <input type="password" id="password" name="password" class ="form-control" placeholder="more 3 simbols, A-z,0-9" /><br>
+    <label for="password1"> <?=__('password_confirm','Password confirm') ?> </label>
+    <input type="password" id="password1" name="password1" class ="form-control" placeholder="<?=__('password_confirm','Password confirm') ?>" /><br>
+    
+	<input type="hidden" name="role" value="user">
+	<input type="hidden" name="is_active" value="1">
+	<input type="hidden" name="id" value= <?= $data['restore']?> >
+	<input type="submit" class="btn btn-success"/>
+	
+</form>

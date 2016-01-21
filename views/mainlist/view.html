@@ -103,11 +103,11 @@
 	
 	};				   
 
-	function byestep(id, user_id, step_price, cur_price, c_max_price){
+	function byestep(id, user_id){
 		$.ajax({
 			type: "POST",			   
 			url:"/mainlist/byestep",			
-			data:{id: id, user_id: user_id, cur_price:cur_price, step_price:step_price, c_max_price:c_max_price}, 
+			data:{id: id, user_id: user_id}, 
 			cache: false,
 			async: false,
 			success: function(data){
@@ -115,11 +115,11 @@
 			},
 		})	
 	};
-	function byecomplite(id, user_id, step_price, c_max_price){
+	function byecomplite(id, user_id){ 
 		$.ajax({
 			type: "POST",			   
 			url:"/mainlist/soldmaxprice",			
-			data:{id: id, user_id: user_id, c_max_price:c_max_price, step_price:step_price}, 
+			data:{id: id, user_id: user_id}, 
 			cache: false,
 			async: false,
 			success: function(data){
@@ -145,7 +145,7 @@
 	
 </script>
 <center> 
-<?php $sess = Session::get('id');// echo "<br>"; print_r($data);?>	
+<?php $sess = getId();// echo "<br>"; print_r($data);?>	
 <table class="table-common-img" border="0px">
 		<tr>
 			<td>
@@ -187,8 +187,8 @@
 								<td> 
 									<?php if($cur_goods['goods_price']!=$cur_goods['goods_cur_price']) {?>
 										<div id="current_price" ><label id="lbl_cur_price"> <?=__('form_add_price','Price') ?>
-										</label><button id="btn_cur_pr" class="btn btn-sm btn-success" onClick="javascript: byestep('<?=$cur_goods['goods_id'];?>','<?=Session::get('id');?>','<?=$cur_goods['goods_step_price']?>','<?=$cur_goods['goods_cur_price']?>','<?=$cur_goods['goods_price']?>');"><?=$cur_goods['goods_step_price']+$cur_goods['goods_cur_price']?> <?=__('uah','UAH.')?></button></div>
-										<div id="max_price" > <?=__('form_add_max_price','Max price') ?>: <button id="btn_max_price" class="btn btn-sm btn-warning" onClick="javascript: byecomplite('<?=$cur_goods['goods_id'];?>','<?=Session::get('id');?>','0','<?=$cur_goods['goods_price']?>');"> <?=$cur_goods['goods_price']?><?=__('uah','UAH.')?></button></div> 
+										</label><button id="btn_cur_pr" class="btn btn-sm btn-success" onClick="javascript: byestep('<?=$cur_goods['goods_id'];?>','<?=getId();?>');"><?=$cur_goods['goods_step_price']+$cur_goods['goods_cur_price']?> <?=__('uah','UAH.')?></button></div>
+										<div id="max_price" > <?=__('form_add_max_price','Max price') ?>: <button id="btn_max_price" class="btn btn-sm btn-warning" onClick="javascript: byecomplite('<?=$cur_goods['goods_id'];?>','<?=getId();?>');"> <?=$cur_goods['goods_price']?><?=__('uah','UAH.')?></button></div> 
 									<?php } ?>
 								</td>
 							</tr>

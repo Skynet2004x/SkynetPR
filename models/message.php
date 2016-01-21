@@ -1,9 +1,9 @@
 <?php
 class Message extends Model{
 	
-	public function save($data, $id = null){
+	public function save($data, $id = null) {
 		
-		if( !isset($data['name']) || !isset($data['email']) || !isset($data['message']) ){
+		if( !isset($data['name']) || !isset($data['email']) || !isset($data['message']) ) {
 			return false;			
 		}
 		
@@ -13,7 +13,7 @@ class Message extends Model{
 		$message = $this->db->escape($data['message']);
 		$user_id = $this->db->escape($data['user_id']);
 		
-		if(!$id){ //add new 
+		if ( !$id ) { //add new 
 			$sql = "
 				insert into messages
 				set name = '{$name}',
@@ -34,9 +34,9 @@ class Message extends Model{
 		return $this->db->query($sql);
 	}
 	
-	public function getList($user_id = null){
+	public function getList($user_id = null) {
 		$sql = "select * from messages where 1";
-		if ( $user_id != null){
+		if ( $user_id != null ) {
 			$sql .= " and user_id = {$user_id}";
 		} 
 		
