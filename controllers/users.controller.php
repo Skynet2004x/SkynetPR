@@ -41,7 +41,7 @@ class UsersController extends Controller{
 		
 		
 	}
-	
+		
 	////// админская часть
     public function admin_index() {
 		

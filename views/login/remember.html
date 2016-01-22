@@ -2,7 +2,8 @@
 <br/>
 <form method="post" action="">
 	<div class="form-group">
-		<label for="email"> <?=__('email','Email') ?> </label>
+		<label for="email"> <?=__('sel_email','Enter your Email for send restore link.') ?> </label><br> 
+		<label for="email"> <?=__('email','Email') ?> : </label>
 		<input type="email" id="email" name="email" class ="form-control" />
 	</div>
 	<a href="/login/user/confirm/<?=$page_data['id']?>"><button class="btn btn-success" ><?=__('remember','Remember') ?></button></a>

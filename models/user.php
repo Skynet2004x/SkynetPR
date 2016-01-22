@@ -43,15 +43,15 @@ class User extends Model{
 
 	public function getRestorePass($hash) {
 		$sql = "SELECT r.id_user, r.email, r.hash, max(timedate)
-			FROM userrestorepass r
-			left JOIN users u ON r.id_user = u.id                    
-            Where hash = '{$hash}'";						
+					FROM userrestorepass r
+					left JOIN users u ON r.id_user = u.id                    
+					Where hash = '{$hash}'";						
 		return $this->db->query($sql);		
 	}
 
 	public function delRestorePass($email , $hash) {
-		$sql = "delete FROM userrestorepass
-					Where email = '{$email}'";						
+		$sql = "DELETE FROM userrestorepass
+					WHERE email = '{$email}'";						
 		return $this->db->query($sql);		
 	}
 	
@@ -68,7 +68,7 @@ class User extends Model{
 				set role = '{$role}',
 					password = '{$password}',
 					is_active = '{$is_active}'
-				WHERE id = {$id}";
+					WHERE id = {$id}";
 
 			
 
@@ -77,8 +77,6 @@ class User extends Model{
 	}	
 	
 	public function save($data) {
-		print_r($data);die;
-		
 		if( strlen($data['login']) == 0  || strlen($data['email']) == 0 ) {
 			return false;			
 		}

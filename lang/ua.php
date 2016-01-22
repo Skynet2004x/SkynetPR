@@ -65,7 +65,7 @@ return array(
 'password_confirm' => 'Подтверждение пароля',
 'registration' => 'Регистрация',
 'remember' => 'Напомнить пароль',
-
+'sel_email' =>'Укажите свой почтовый адрес и Вам придет письмо с вложенной ссылкой для подтверждения.',
 'message_list' => 'Список сообщений',
 'message_num' => '№',
 'message_name' => 'Имя автора',
@@ -103,6 +103,7 @@ return array(
 'active' => 'Вкл.',
 'not_active' => 'Выкл.',
 'activity' => 'Активность',
+'left' => 'Осталось',
 'no_edit' => 'Товар выставлен на торги',
 'ads_sold' => 'Товар продан.',
 'ads_winer' => 'Полупатель : ',
@@ -111,5 +112,5 @@ return array(
 'cart_date_bye'=>'Дата покупки',
 'cart_page'=>'Ваши покупки',
 'cart_confirm'=>'Подтвердить',
-
+'cart_back_out'=>'Отказаться',
 );

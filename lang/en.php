@@ -56,11 +56,11 @@ return array(
 'logout' => 'Logout',
 'login' => 'Login',
 'login_form' => 'Login form',
-
+'sel_email' =>'Enter your Email for send restore link.',
 'password' => 'Password',
 'password_confirm' => 'Password confirm',
 'registration' => 'Registration',
-'remember' => 'Remember',
+'remember' => 'Restore password',
 'message_list' => 'Message list',
 'message_num' => '№',
 'message_name' => 'Autor name',
@@ -94,6 +94,7 @@ return array(
 'form_edit' => 'From edit',
 'rating' => 'Rating',
 'active' => 'Active',
+'left' => 'Left',
 'not_active' => 'Not active',
 'activity' => 'Activity',
 'no_edit' => 'Edition bloked',
@@ -104,5 +105,5 @@ return array(
 'cart_date_bye'=>'Date of bye',
 'cart_page'=>'Your cart page',
 'cart_confirm'=>'Confirm',
-
+'cart_back_out'=>'Back out',
 );

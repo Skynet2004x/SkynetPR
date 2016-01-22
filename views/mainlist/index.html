@@ -17,7 +17,7 @@ for ($i = $j; $i < $to_page; $i++){
 			<td>
 				<table class="table-img-desc" border="0px"> 
 					<tr align=center>
-						<td><?=__('form_add_name','Name') ?>: <?=$cur_goods['goods_name']?></td>
+						<td><?=__('form_add_name','Name') ?>: <b><?=$cur_goods['goods_name']?></b></td>
 						<td><?=__('form_add_desc','Description') ?>: </td>
 					</tr>
 					<tr> 						
@@ -28,13 +28,13 @@ for ($i = $j; $i < $to_page; $i++){
 				<center>
 					<table class="table-index-price" > 
 						<tr >
-							<td>Автор: <?=$cur_goods['user_login']?></td>
+							<td><?=__('content_table_author','Author') ?> : <?=$cur_goods['user_login']?></td>
 						</tr>						
 						<tr>						
 							<td> <?=__('form_add_price','Price') ?>: <?=$cur_goods['goods_cur_price']+$cur_goods['goods_step_price']?> <?=__('form_add_max_price','Max price') ?>:<?=$cur_goods['goods_price']?> </td>
 						</tr>
 						<tr>													 
-							<td><?=__('form_add_end_time','End data') ?>: <?=date('d-m-Y', strtotime($cur_goods['goods_start_time'].'+'.$cur_goods['goods_num_days'].' day') )  ?>. Осталось: <?= $cur_goods['goods_days_left'] ?></td>
+							<td><?=__('form_add_end_time','End data') ?>: <?=date('d-m-Y', strtotime($cur_goods['goods_start_time'].'+'.$cur_goods['goods_num_days'].' day') )  ?>. <?=__('left' ,'Left') ?>: <?= $cur_goods['goods_days_left'] ?></td> 
 						</tr> 
 					</table><br>
 				</center>			

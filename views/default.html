@@ -16,7 +16,20 @@
 <!--	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/js/bootstrap.js"></script>
 -->	
-
+<script type="text/javascript">
+function switch_language(lang)	{
+	$.ajax({
+			type: "POST",			   
+			url:'/login/changelang',			
+			data:{'lang':lang}, 
+			cache: false,
+			async: false,
+			success: function(data){
+			
+			},			
+		})		
+};
+</script>	
 </head>
 <body class="tm-body" style="position:relative;top:0px;">
 
@@ -67,12 +80,13 @@ if ( isset($sess) != null) {
 			<?php }  else { ?> 
 				<li><a class='active' href="/login/logout/"><?=__('logout','Logout')." (".Session::get('login').")" ?></a></li>
 			<?php } ?>
-			
+				<li><a href="" onclick="return switch_language('ua')"><img src="/webroot/img/UA.png" data-tooltip="UA"></a></li>
+				<li><a href="" onclick="return switch_language('en')"><img src="/webroot/img/EN.png" data-tooltip="EN"></a></li>
+				
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-
     
     <div class="container">
 	

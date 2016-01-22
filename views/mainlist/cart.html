@@ -1,7 +1,7 @@
 <H3><?=__('cart_page','Cart page') ?>:</H3>
-<form action="/mainlist/clear_cart" method = "post">   
+<form action="/mainlist/cart/" method = "post">   
 <center> 
-<?php $sess = Session::get('id'); //echo"<pre>"; print_r($data['mainlist']); ?>	
+<?php $sess = getId();// echo"<pre>"; print_r($data['mainlist']); ?>	
 <table class="table-common-img" border="0px">
 	<input type="hidden" name="user_id" id="user_id" value="<?=$sess?>" />	
 	<?php //echo "<pre>"; print_r($data['mainlist']);
@@ -11,16 +11,25 @@
 			<td>
 				<?=$cur_goods['name']?> <br>
 				<?=$cur_goods['decs']?> <br>
-				<?=__('form_add_price','Price') ?>: <?=$cur_goods['price']?><?=__('uah','UAH.')?><br>
+				<?=__('form_add_price','Price') ?>: <?=$cur_goods['cur_price']?><?=__('uah','UAH.')?><br>
 				<?=__('cart_date_bye','Date of bye') ?>: <?=$cur_goods['date_time']?>
 			</td>
 			<td>
 				
 			</td>
 		</tr>
+		<tr>
+			<td>
+			<input type = "submit" value = "<?=__('cart_confirm','Confirm') ?>" class="btn btn-success" />
+			<input type = "submit" value = "<?=__('cart_back_out','Back out') ?>" name = "backout" class="btn btn-warning" />
+			<input type="hidden" name="backads" value="<?=$cur_goods['goods_id']?>">
+			</td>
+			<td>
+				<label type="text" style = "font-size:9px;"> (В случае отказа товар перейдет тому, кто делал ставку перед вами)  </label>
+			</td>
+		</tr>
+
 	<?php } ?>
 </table>
-
-	<input type = "submit" value = "<?=__('cart_confirm','Confirm') ?>" class="btn btn-success" />
 </center>
 </form>

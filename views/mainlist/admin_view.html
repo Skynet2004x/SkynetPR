@@ -16,23 +16,25 @@ if($to_page > count($data['mainlist'])){
 /*echo "page".$page."<br>";
 echo "form_page".$form_page."<br>";
 echo "to_page".$to_page."<br>";*/
-$j=$form_page-1;
-for ($i = $j; $i < $to_page; $i++){
-	$cur_goods = $data['mainlist'][$j]; 
-	$j++; 
 ?>
 		<input type="hidden" name="user_id" value="<?=$cur_goods['user_id'];?>" />
 		<input type="hidden" name="goods_id" value="<?=$cur_goods['goods_id'];?>" />
 		<tr>
 			<td>
 				<table class="table-img" border="0px"> 
-					<tr align=center>
-						<td width=30%><?=__('form_add_name','Name') ?>: <?=$cur_goods['goods_name']?></td>
-						<td width=45%><?=__('form_add_desc','Description') ?>: </td>
+					<?php $j=$form_page-1;
+					
+					for ($i = $j; $i < $to_page; $i++){
+						$cur_goods = $data['mainlist'][$j]; 
+						$j++; // echo"<pre>"; print_r($cur_goods);
+					?>				
+					<tr >
+						<td width=30%><?=__('form_add_name','Name') ?>: <b><?=$cur_goods['goods_name']?></b></td>
+						<td width=45% align=center><?=__('form_add_desc','Description') ?>: </td>
 						<td width=25%> </td>
 					</tr>
 					<tr > 						
-						<td width=30%><a href="/mainlist/view/<?=$cur_goods['goods_id'];?>" ><img src="<?=$cur_goods['photo_path']?>" width="300px" height="300px" border="1px" style="margin:10px 10px ;"></a></td>
+						<td width=30%><a href="/mainlist/view/<?=$cur_goods['goods_id'];?>" ><img src="<?=$cur_goods['photo_path']?>" width="200px" height="200px" border="1px" style="margin:10px 10px ;"></a></td>
 						<td width=45% class="mainlist_edit"> <?=$cur_goods['goods_decs']?></td>
 						<td width=25% class="mainlist_edit">
 							
@@ -58,11 +60,12 @@ for ($i = $j; $i < $to_page; $i++){
 							<?php } ?>
 							</td>
 					</tr>
+					<?php } ?>
 				</table>
 			</td>
 		</tr>
 
-<?php } ?>
+
 
 </table>
 <?php require  ROOT.DS.'plugins'.DS.'pagination.php';?>

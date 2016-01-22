@@ -11,9 +11,10 @@ class Model{
 	public function convertStr($stringFrom) {
 		
 		if ( preg_match("/[а-яА-Я]+/u",$stringFrom) ) {
-					
-			return false; 
+			
+			$name = explode('.',$stringFrom);					
+			return getId().'-'.time().'.'.$name[1];
 		}
-		return true;
+		return $stringFrom;
 	} 
 }

@@ -186,15 +186,14 @@
 							<tr align=center>													
 								<td> 
 									<?php if($cur_goods['goods_price']!=$cur_goods['goods_cur_price']) {?>
-										<div id="current_price" ><label id="lbl_cur_price"> <?=__('form_add_price','Price') ?>
-										</label><button id="btn_cur_pr" class="btn btn-sm btn-success" onClick="javascript: byestep('<?=$cur_goods['goods_id'];?>','<?=getId();?>');"><?=$cur_goods['goods_step_price']+$cur_goods['goods_cur_price']?> <?=__('uah','UAH.')?></button></div>
-										<div id="max_price" > <?=__('form_add_max_price','Max price') ?>: <button id="btn_max_price" class="btn btn-sm btn-warning" onClick="javascript: byecomplite('<?=$cur_goods['goods_id'];?>','<?=getId();?>');"> <?=$cur_goods['goods_price']?><?=__('uah','UAH.')?></button></div> 
+										<div id="current_price" ><label id="lbl_cur_price"> <?=__('form_add_price','Price') ?>: </label><button id="btn_cur_pr" class="btn btn-sm btn-success" onClick="javascript: byestep('<?=$cur_goods['goods_id'];?>','<?=getId();?>');"><?=$cur_goods['goods_step_price']+$cur_goods['goods_cur_price']?> <?=__('uah','UAH.')?></button></div>
+										<div id="max_price" > <?=__('form_add_max_price','Max price') ?>: <button id="btn_max_price" class="btn btn-sm btn-warning" onClick="javascript: byecomplite('<?=$cur_goods['goods_id'];?>','<?=getId();?>');"> <?=$cur_goods['goods_price']?> <?=__('uah',' UAH.')?></button></div> 
 									<?php } ?>
 								</td>
 							</tr>
 							<tr align=center>						
 								<?php if($cur_goods['goods_price']!=$cur_goods['goods_cur_price']) {?>
-									<td><div id="final_date">  <?=__('form_add_end_time','End data') ?>: <?=date('d-m-Y', strtotime($cur_goods['goods_start_time'].'+'.$cur_goods['goods_num_days'].' day') )  ?>. Осталось: <?= $cur_goods['goods_days_left']?></div></td>
+									<td><div id="final_date">  <?=__('form_add_end_time','End data') ?>: <?=date('d-m-Y', strtotime($cur_goods['goods_start_time'].'+'.$cur_goods['goods_num_days'].' day') )  ?>. <?=__('left' ,'Left') ?>: <?= $cur_goods['goods_days_left']?></div></td>
 								<?php } ?>					
 							</tr> 
 						</div>
@@ -205,7 +204,7 @@
 							</tr>
 							<tr align=center>						
 								 
-								<td><?=__('form_add_end_time','End data') ?>  <?=date('d-m-Y', strtotime($cur_goods['goods_start_time'].'+'.$cur_goods['goods_num_days'].' day') )  ?>. Осталось: <?= $cur_goods['goods_days_left']?> </td>
+								<td><?=__('form_add_end_time','End data') ?>  <?=date('d-m-Y', strtotime($cur_goods['goods_start_time'].'+'.$cur_goods['goods_num_days'].' day') )  ?>. <?=__('left' ,'Left') ?>: <?= $cur_goods['goods_days_left']?> </td>
 							</tr> 
 						</table><br>						
 						<?php } ?>

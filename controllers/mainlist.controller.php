@@ -57,8 +57,7 @@ class MainlistController extends Controller{
 			
 			if( count($_POST)>0 ) {
 				$goods_id = $_POST['goods_id'];					
-				$result = $this->model->save($goods_id);
-				
+				$result = $this->model->save($goods_id);				
 				if ( $result ) {
 					Session::setFlash( __('page_was_saved','Page was saved'));				
 				} else {
@@ -102,8 +101,14 @@ class MainlistController extends Controller{
 	
 	public function view() {		
 		$params = App::getRouter()->getParams();		
-		if ( isset($params[0]) ) {			
-			$this->data['mainlist'] = $this->model->getDetail($params);
+		if ( isset($params[0]) ) {
+			$res = $this->model->getList(false, $params[0]); // проверим а не свой ли товар пользователь хочет купить.
+
+			if ( $res[0]['user_id'] != getid() ) { 		
+				$this->data['mainlist'] = $this->model->getDetail($params); // товар не свой... все ок.
+			} else {
+				Router::redirect('/');  // свой товар низзя покупать.
+			}
 		}		
 	}
 	
@@ -137,25 +142,28 @@ class MainlistController extends Controller{
 				Session::setFlash( __('page_was_not_delete','Page was not delete'));
 			}			
 		}
-		Router::redirect('/mainlist/userprofile/');
+		Router::redirect('/mainlist/userprofile/'.(int)getId());
 	}
 /////////////////////// cart //////////////////////////
 
 	public function cart() {
+
 		if ( getId() == null ) {
 			Router::redirect('/'); 
 		}		
-		
-		if( $_POST ) {
-			
-		} else {
+		if( !$_POST['backout'] ) {		
 			if ( !isset($_POST['back']) ) {					
 				$this->data['mainlist']	 = $this->model->getCart((int)getId());
 			} else {
-				Router::redirect('/mainlist/userprofile/');	
-			}
-			
-		}
+				Router::redirect('/mainlist/userprofile/'.(int)getId());	
+			}				
+		} else { // для варианта отказа от товара 
+			$params = App::getRouter()->getParams();
+			$goods_id = (int)$_POST['backads'];
+			$this->model->cartBackOut((int)getId(),$goods_id);
+			Router::redirect('/');			
+		}			
+		
 	}	
 	
 	public function update_cart() {			
@@ -163,8 +171,10 @@ class MainlistController extends Controller{
 	}
 
 	public function clear_cart() {			
+			
 		$this->model->cartClear();
 		Router::redirect('/');
+
 	}
 	
 /////////////////////////////admin ///////////////////////////

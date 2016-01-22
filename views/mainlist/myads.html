@@ -30,12 +30,12 @@ if($to_page > count($data['mainlist'])){
 					?>
 				
 					<tr align=center>
-						<td width=30%><?=__('form_add_name','Name') ?>: <?=$cur_goods['goods_name']?></td>
+						<td width=30%><?=__('form_add_name','Name') ?>: <b><?=$cur_goods['goods_name']?></b></td>
 						<td width=40%><?=__('form_add_desc','Description') ?>: </td>
 						<td width=30%> </td>
 					</tr>
 					<tr > 						
-						<td width=30%><a href="/mainlist/view/<?=$cur_goods['goods_id'];?>" ><img src="<?=$cur_goods['photo_path']?>" width="200px" border="1px" style="margin:10px 10px ;"></a></td>
+						<td width=30%><img src="<?=$cur_goods['photo_path']?>" width="200px" border="1px" style="margin:10px 10px ;"></td>
 						<td width=40% class="mainlist_edit"> <?=$cur_goods['goods_decs']?></td>
 						<td width=30% class="mainlist_edit">
 							<?php if($cur_goods['goods_cur_price'] >= $cur_goods['goods_price']) { echo __('ads_sold','Contetn sold.')."<br>".__('ads_winer','Winer:').$cur_goods['winer_login'] ; } else { ?>						

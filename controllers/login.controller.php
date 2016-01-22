@@ -88,18 +88,6 @@ class LoginController extends Controller{
 		}
 
 	}	
-	public function rpass() {
-		if( count($_POST) ) {			
-			if ( !is_null($_POST['password']) && !is_null($_POST['password1']) && ($_POST['password'] == $_POST['password1'] ) ) { // и если все получено ок
-				$data = $_POST;
-				$data['r'] = 1;
-				$this->data['restore'] =$data;
-				print_r($data); die;
-				// записать новый пароль
-				Router::redirect('/');	
-			}
-		}
-	}
 	
 	public function restore() {
 		$params = App::getRouter()->getParams();
@@ -107,6 +95,7 @@ class LoginController extends Controller{
 			$res = $this->model->getRestorePass($params[0]);
 
 			if ( $params[0] == $res[0]['hash'] ) { // если хеш в базе найден - показать страницу с восстановлением и грохнуть записи из таблицы хеша				
+				
 				$this->model->delRestorePass($res[0]['email'] , $res[0]['hash']); // тут удалим из базы мыло и хеш логина при подтверждении
 				$data = $res[0]['id_user'];
 				$this->data['restore'] = $data;				
@@ -129,16 +118,22 @@ class LoginController extends Controller{
 		if( count($_POST) ) {
 			if( !is_null($_POST['email']) && strlen($_POST['email']) > 0 ) {					
 				$email = $_POST['email'];
-				$user = $this->model->getByEmail($email); // массив с рез. выборки пользователя
-				$hash = md5(Config::get('salt').$user['login']); // сгенерим хеш по логину для отправки пользователю в кач. ключа.
-				$id = $user['id'];
-				$this->model->setRestorePass($id, $email , $hash);// тут запишем в базу мыло и хеш логина
-				
-				if ( (int)Config::get('sendemail') == 1 ) {									
-					self::sendemail($user['email'],$user['login'],"Your Login {$user['login']}. For change the password follow http://localhost/login/restore?"."{$hash}");				
-				}			
-				
-				Router::redirect('/');
+				$user = $this->model->getByEmail($email); // массив с рез. выборки пользователя								
+				if ( !$user == false ) { // проверим а есть ли такой имеил воообще в базе
+					$hash = md5(Config::get('salt').$user['login'].time()); // сгенерим хеш по логину для отправки пользователю в кач. ключа.
+					$id = $user['id'];
+					$this->model->setRestorePass($id, $email , $hash);// тут запишем в базу мыло и хеш логина
+					
+					if ( (int)Config::get('sendemail') == 1 ) {									
+						self::sendemail($user['email'],$user['login'],"Your Login {$user['login']}. For change the password follow http://localhost/login/restore?"."{$hash}");				
+					}			
+					
+					Router::redirect('/');
+				} else {
+					Session::setFlash( "Email указан не верно" );
+					unset($_POST);
+				} 
+					
 			}				
 		}
 
@@ -148,9 +143,15 @@ class LoginController extends Controller{
 		}
 
 	}
-	public function logout() {
-	
+	public function logout() {		
 		Session::destroy();
 		Router::redirect('/');
 	}
+	
+	public function changelang() {
+		print_r($_POST);
+		$lang=$_POST['lang'];
+		Session::set('languages',$lang);
+	}
+	
 }

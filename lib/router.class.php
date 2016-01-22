@@ -59,6 +59,16 @@ class Router{
 		$path_parts = explode('/', $path);	
 		if ( count($path_parts) ) {
 			
+			
+			// проверим сессию на параметр языка и подсунем его первым параметром в массив роута			
+			if ( $path_parts[0] != 'admin' ) {
+				if ( Session::get('languages') == 'en' ) {
+					array_unshift($path_parts, "en");
+				} else {
+					array_unshift($path_parts, "ua");
+				}
+			}
+		
 			// get route of language
 			if ( in_array(strtolower(current($path_parts)),array_keys($routes)) ) {
 					$this->route = strtolower(current($path_parts));
