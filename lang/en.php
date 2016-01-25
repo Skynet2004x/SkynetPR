@@ -106,4 +106,7 @@ return array(
 'cart_page'=>'Your cart page',
 'cart_confirm'=>'Confirm',
 'cart_back_out'=>'Back out',
+'page_ff'=>'Next',
+'page_fr'=>'Back',
+
 );

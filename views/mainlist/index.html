@@ -31,7 +31,7 @@ for ($i = $j; $i < $to_page; $i++){
 							<td><?=__('content_table_author','Author') ?> : <?=$cur_goods['user_login']?></td>
 						</tr>						
 						<tr>						
-							<td> <?=__('form_add_price','Price') ?>: <?=$cur_goods['goods_cur_price']+$cur_goods['goods_step_price']?> <?=__('form_add_max_price','Max price') ?>:<?=$cur_goods['goods_price']?> </td>
+							<td> <?=__('form_add_price','Price') ?>: <?=$cur_goods['goods_cur_price']+$cur_goods['goods_step_price']?> <?=__('uah','UAH') ?> <?=__('form_add_max_price','Max price') ?>: <?=$cur_goods['goods_price']?> <?=__('uah','UAH') ?> </td>
 						</tr>
 						<tr>													 
 							<td><?=__('form_add_end_time','End data') ?>: <?=date('d-m-Y', strtotime($cur_goods['goods_start_time'].'+'.$cur_goods['goods_num_days'].' day') )  ?>. <?=__('left' ,'Left') ?>: <?= $cur_goods['goods_days_left'] ?></td> 

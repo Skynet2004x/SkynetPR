@@ -3,7 +3,7 @@
 
 <table id="table-common-img" border="0px">
 
-<?php //echo"<pre>"; print_r(date('Y-m-d H:m:s', time())); 
+<?php 
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ( $page == 0 ){ $page = 1; }
@@ -12,10 +12,6 @@ $to_page = (Config::get('adsperpage')* $page);
 if($to_page > count($data['mainlist'])){
 	$to_page = count($data['mainlist']);
 }
-//echo count($data['mainlist']);
-/*echo "page".$page."<br>";
-echo "form_page".$form_page."<br>";
-echo "to_page".$to_page."<br>";*/
 ?>
 		<input type="hidden" name="user_id" value="<?=$cur_goods['user_id'];?>" />
 		<input type="hidden" name="goods_id" value="<?=$cur_goods['goods_id'];?>" />
@@ -26,7 +22,7 @@ echo "to_page".$to_page."<br>";*/
 					
 					for ($i = $j; $i < $to_page; $i++){
 						$cur_goods = $data['mainlist'][$j]; 
-						$j++; // echo"<pre>"; print_r($cur_goods);
+						$j++; 
 					?>				
 					<tr >
 						<td width=30%><?=__('form_add_name','Name') ?>: <b><?=$cur_goods['goods_name']?></b></td>

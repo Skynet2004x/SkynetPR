@@ -29,13 +29,12 @@ class Pagination
             $currentPage = $pagesCount;
         }
 
-        $this->buttons[] = new Button($currentPage - 1, $currentPage > 1, 'Пред.');
+        $this->buttons[] = new Button($currentPage - 1, $currentPage > 1, __('page_fr','Back'));
 
         for ($i = 1; $i <= $pagesCount; $i++) {
             $active = $currentPage != $i;
             $this->buttons[] = new Button($i, $active);
         }
-
-        $this->buttons[] = new Button($currentPage + 1, $currentPage < $pagesCount, 'След.');
+        $this->buttons[] = new Button($currentPage + 1, $currentPage < $pagesCount, __('page_ff','Next'));
     }	
 }

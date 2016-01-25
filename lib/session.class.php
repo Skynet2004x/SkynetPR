@@ -39,4 +39,8 @@ class Session{
 			session_destroy();
 	}
 	
+	public static function start() {
+			session_start();
+	}
+	
 }

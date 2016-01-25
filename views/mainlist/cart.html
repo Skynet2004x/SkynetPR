@@ -1,11 +1,11 @@
 <H3><?=__('cart_page','Cart page') ?>:</H3>
 <form action="/mainlist/cart/" method = "post">   
 <center> 
-<?php $sess = getId();// echo"<pre>"; print_r($data['mainlist']); ?>	
+<?php $sess = getId();?>	
 <table class="table-common-img" border="0px">
 	<input type="hidden" name="user_id" id="user_id" value="<?=$sess?>" />	
-	<?php //echo "<pre>"; print_r($data['mainlist']);
-	foreach($data['mainlist'] as $cur_goods){ //echo "<pre>";print_r($cur_goods);?>	
+	<?php 
+	foreach($data['mainlist'] as $cur_goods){ ?>	
 		<tr>			
 			<td><img src="<?=$cur_goods['path']['path']?>" width="200px"  border="1px" style="margin:10px 10px ;"></td>
 			<td>

@@ -28,7 +28,7 @@
 	<label> <?=__('form_add_num_days','num_days') ?> </label>
 	<input type="number" name="num_days"  min="0" max="365" size="3" value="<?=$cur_goods['goods_num_days'] ?>" class ="form-control"/><br>
  	
-	<input type="checkbox" name="active" <?php if ($cur_goods['goods_active'] == 1) { echo "checked"; } ?> >Опубликовать</input><br><br>
+	<input type="checkbox" name="active" <?php if ($cur_goods['goods_active'] == 1) { echo "checked"; } ?> ><?=__('admin_pages_edit_publish','Publish')?></input><br><br>
 	<label> <?=__('form_added_add_files','Added files') ?> </label> <br>
    
 

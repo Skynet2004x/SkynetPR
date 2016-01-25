@@ -144,7 +144,10 @@ class LoginController extends Controller{
 
 	}
 	public function logout() {		
+		$cur_lang = Session::get('languages'); 
 		Session::destroy();
+		Session::start();
+		Session::set('languages',$cur_lang);
 		Router::redirect('/');
 	}
 	

@@ -27,8 +27,6 @@ return array(
 'config_default_action' => 'Действие по умолчанию',
 'config_default_num_foto' => 'Количество фото на объявление',
 
-
-
 'admin_page' => 'Страница админа',
 'admin_params' => 'Настройки и параметры',
 'admin_pages' => 'Статьи для редактирования',
@@ -113,4 +111,6 @@ return array(
 'cart_page'=>'Ваши покупки',
 'cart_confirm'=>'Подтвердить',
 'cart_back_out'=>'Отказаться',
+'page_ff'=>'След.',
+'page_fr'=>'Пред.',
 );
